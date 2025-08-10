@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import background from '../assets/background.png'
 
-export default function Header() {
+function Header() {
   const [isVisible, setIsVisible] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
   const navigate = useNavigate()
@@ -184,3 +184,5 @@ export default function Header() {
     </>
   )
 }
+
+export default Header
