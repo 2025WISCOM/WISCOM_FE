@@ -1,24 +1,32 @@
-import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+
+const tabs = [
+  { label: 'Introduction', path: '/about/introduction' },
+  { label: 'Congratulation', path: '/about/congratulation' },
+  { label: 'Developer', path: '/about/developer' },
+  { label: 'Map', path: '/about/map' },
+]
 
 const NavBar = () => {
-  const [activeTab, setActiveTab] = useState('Introduction')
-  const tabs = ['Introduction', 'Congratulation', 'Developer', 'Map']
-
   return (
     <nav className="static flex justify-center border-b border-[#B19D87] text-[#42372C] px-1">
       <ul className="flex space-x-6 text-sm">
         {tabs.map((tab) => (
-          <li
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`cursor-pointer px-1 transition-colors duration-200 pb-2
-              ${
-                activeTab === tab
-                  ? 'border-b-[5px] border-[#8F7860] font-medium text-[#42372C]'
-                  : 'text-[#B19D87]'
-              }`}
-          >
-            {tab}
+          <li key={tab.path} className="pb-[10px]">
+            <NavLink
+              to={tab.path}
+              className={({ isActive }) =>
+                `cursor-pointer px-1 transition-colors duration-200 pb-2
+                 ${
+                   isActive
+                     ? 'border-b-[5px] border-[#8F7860] font-medium text-[#42372C]'
+                     : 'text-[#B19D87]'
+                 }`
+              }
+              end
+            >
+              {tab.label}
+            </NavLink>
           </li>
         ))}
       </ul>
