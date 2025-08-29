@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import background from '../assets/background.png'
+import WISCOM from '../assets/WISCOM.png'
 
 function Header() {
   const [isVisible, setIsVisible] = useState(false)
@@ -85,14 +86,29 @@ function Header() {
         }`}
       > */}
       <div className="w-full h-[100px] flex justify-between items-center px-6 text-[#42372C] font-serif relative z-50 bg-[#FFF5E9]">
-        <div
+        {/* <div
           className={`text-[32px] font-bold cursor-pointer font-playfairSC transition-opacity duration-300 ${
             isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
           } ${isMain ? 'text-[#000000]' : 'text-[#42372C]'}`}
           onClick={handleClickWiscom}
         >
           WISCOM
-        </div>
+        </div> */}
+        <button
+          type="button"
+          onClick={handleClickWiscom}
+          className={`transition-opacity duration-300 ${
+            isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+          aria-label="WISCOM 홈으로 이동"
+        >
+          <img
+            src={WISCOM}
+            alt="WISCOM"
+            className={`h-[20px] w-auto object-contain ${isMain ? '' : ''}`}
+            draggable={false}
+          />
+        </button>
         <div
           className="flex items-center gap-2 cursor-pointer"
           onClick={toggleMenu}
