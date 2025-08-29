@@ -1,6 +1,7 @@
+import { QRCodeSVG } from 'qrcode.react'
+
 import StampImg from '../../assets/duksung_fantasy_transparent.png'
 import ComputerIcon from '../../assets/booth_stamp_computer.svg'
-import SuccessIcon from '../../assets/booth_stamp_success.svg'
 
 const BoothStamp = () => {
   return (
@@ -24,7 +25,10 @@ const BoothStamp = () => {
 
       <div className="grid grid-cols-3 gap-[24px] px-[35px] place-items-center mb-[36px]">
         {Array.from({ length: 15 }).map((_, idx) => (
-          <div className="relative w-[80px] h-[80px] flex items-center justify-center  cursor-pointer">
+          <div
+            key={idx}
+            className="relative w-[80px] h-[80px] flex items-center justify-center  cursor-pointer"
+          >
             <img
               key={idx}
               src={ComputerIcon}
@@ -34,6 +38,17 @@ const BoothStamp = () => {
             <p className="font-['Butler'] text-[#9D8469] text-[22px] font-medium leading-[32px] relative top-[-4px]">
               {idx + 1}
             </p>
+          </div>
+        ))}
+
+        {/* 임시 QR 생성 */}
+        {Array.from({ length: 15 }).map((_, idx) => (
+          <div key={idx}>
+            <div>{idx + 1} 번째 QR</div>
+            <QRCodeSVG
+              value={`${String(idx)}-${Math.random().toString()}`}
+              size={64}
+            />
           </div>
         ))}
       </div>
