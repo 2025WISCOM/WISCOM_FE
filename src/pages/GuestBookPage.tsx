@@ -3,6 +3,7 @@ import { useGuestbook } from '../apis/guestbook/useGuestbook'
 import GuestBookItem from '../components/guestbook/GuestBookItem'
 import GuestBookWrite from '../components/guestbook/GuestBookWrite'
 import Pagination from '../components/guestbook/Pagination'
+import Footer from '../components/about/Footer'
 import SearchIcon from '../assets/search.svg'
 import MessageIcon from '../assets/messagenone.svg'
 
@@ -30,7 +31,7 @@ const GuestBookPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col">
       <GuestBookWrite onSubmitted={handleSubmitted} />
 
       <div className="w-full mt-[32px]">
@@ -59,15 +60,17 @@ const GuestBookPage = () => {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-[8px] mt-[20px] mb-[36px]">
-          {items.map((g) => (
-            <GuestBookItem
-              key={g.id}
-              toName={g.recipient}
-              fromName={g.author}
-              message={g.content}
-            />
-          ))}
+        <div className="w-full px-[20px] mt-[20px] mb-[36px]">
+          <div className="grid grid-cols-2 gap-[8px] justify-items-center">
+            {items.map((g) => (
+              <GuestBookItem
+                key={g.id}
+                toName={g.recipient}
+                fromName={g.author}
+                message={g.content}
+              />
+            ))}
+          </div>
         </div>
       )}
 
@@ -77,6 +80,8 @@ const GuestBookPage = () => {
         onChange={setCurrentPage}
         className="mb-[48px]"
       />
+
+      <Footer />
     </div>
   )
 }
