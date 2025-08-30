@@ -1,0 +1,88 @@
+import { useState } from 'react'
+import MainFrame from '../../assets/guestbook_main.svg'
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL
+
+const GuestBookWrite = () => {
+  const [toName, setToName] = useState('')
+  const [message, setMessage] = useState('')
+  const [fromName, setFromName] = useState('')
+
+  const isFilled =
+    toName.trim() !== '' && message.trim() !== '' && fromName.trim() !== ''
+
+  const handleSubmit = async () => {
+    if (!isFilled) return
+
+    await fetch(`${API_BASE}/api/guestbook/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        author: fromName,
+        recipient: toName,
+        content: message,
+      }),
+    })
+
+    setToName('')
+    setMessage('')
+    setFromName('')
+  }
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative w-[380px] h-[380px] flex justify-center items-center">
+        <div className="absolute w-[290px] h-[290px] bg-[#fff]" />
+
+        <img
+          src={MainFrame}
+          alt="방명록 작성"
+          className="absolute w-full h-full object-cover -mt-[12px] -mb-[8px]"
+        />
+
+        <div className="relative flex flex-col">
+          {/* To */}
+          <div className="flex gap-[4px]">
+            <p className="text-[20px]">To.</p>
+            <input
+              type="text"
+              placeholder="받는 사람"
+              value={toName}
+              onChange={(e) => setToName(e.target.value)}
+              className="text-[15px] placeholder:text-[#999] outline-none"
+            />
+          </div>
+
+          {/* 메시지 */}
+          <textarea
+            placeholder="새로운 여정을 시작하는 학생들에게 응원과 축하의 메시지를 남겨주세요!"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="w-[240px] h-[160px] mt-[8px] mb-[16px] text-[15px] placeholder:text-[#999] outline-none resize-none"
+          />
+
+          {/* From */}
+          <div className="flex gap-[4px]">
+            <p className="text-[20px]">From.</p>
+            <input
+              type="text"
+              placeholder="보내는 사람"
+              value={fromName}
+              onChange={(e) => setFromName(e.target.value)}
+              className="text-[15px] placeholder:text-[#999] outline-none"
+            />
+          </div>
+        </div>
+      </div>
+
+      <button
+        onClick={handleSubmit}
+        className={`w-[132px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A]' : 'bg-[#DDD]'}`}
+      >
+        Send
+      </button>
+    </div>
+  )
+}
+
+export default GuestBookWrite
