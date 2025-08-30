@@ -3,7 +3,11 @@ import MainFrame from '../../assets/guestbook_main.svg'
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL
 
-const GuestBookWrite = () => {
+interface Props {
+  onSubmitted?: () => void
+}
+
+const GuestBookWrite = ({ onSubmitted }: Props) => {
   const [toName, setToName] = useState('')
   const [message, setMessage] = useState('')
   const [fromName, setFromName] = useState('')
@@ -27,6 +31,8 @@ const GuestBookWrite = () => {
     setToName('')
     setMessage('')
     setFromName('')
+
+    onSubmitted?.()
   }
 
   return (
