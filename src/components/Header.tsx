@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
+import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import background from '../assets/background.png'
+import WISCOM from '../assets/WISCOM.png'
+
+type CSSVars = CSSProperties & { ['--header-h']?: string }
 
 function Header() {
   const [isVisible, setIsVisible] = useState(false)
@@ -24,14 +28,14 @@ function Header() {
 
   const menuItems = [
     { name: 'HOME', path: '/' },
-    { name: 'ABOUT', path: '/about' },
+    { name: 'ABOUT', path: '/about/introduction' },
     { name: 'WORKS', path: '/works' },
     { name: 'GUESTBOOK', path: '/guestbook' },
     { name: 'STAMP', path: '/stamp' },
   ]
 
   const handleMouseMove = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (event: ReactMouseEvent<HTMLDivElement>) => {
       const item = event.currentTarget
       const rect = item.getBoundingClientRect()
       const x = event.clientX - rect.left
@@ -68,31 +72,31 @@ function Header() {
     <>
       <style>{`
         @keyframes fadeSlideIn {
-          from {
-            opacity: 0;
-            transform: translateX(-100%);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+          from { opacity: 0; transform: translateX(-100%); }
+          to { opacity: 1; transform: translateX(0); }
         }
       `}</style>
 
-      {/* <div
-        className={`w-full h-[100px] flex justify-between items-center px-6 font-serif relative z-50 transition-all duration-300 ${
-          isMain ? 'bg-transparent' : 'bg-[#FFF5E9]'
-        }`}
-      > */}
-      <div className="w-full h-[100px] flex justify-between items-center px-6 text-[#42372C] font-serif relative z-50 bg-[#FFF5E9]">
-        <div
-          className={`text-[32px] font-bold cursor-pointer font-playfairSC transition-opacity duration-300 ${
-            isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          } ${isMain ? 'text-[#000000]' : 'text-[#42372C]'}`}
+      <div
+        className="w-full flex-shrink-0 flex justify-between items-center px-6 text-[#42372C] font-serif relative z-50 bg-[#F5F3F0] h-[var(--header-h)]"
+        style={{ '--header-h': '64px' } as CSSVars}
+      >
+        <button
+          type="button"
           onClick={handleClickWiscom}
+          className={`transition-opacity duration-300 ${
+            isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+          aria-label="WISCOM 홈으로 이동"
         >
-          WISCOM
-        </div>
+          <img
+            src={WISCOM}
+            alt="WISCOM"
+            className="h-[20px] w-auto object-contain"
+            draggable={false}
+          />
+        </button>
+
         <div
           className="flex items-center gap-2 cursor-pointer"
           onClick={toggleMenu}
@@ -107,57 +111,46 @@ function Header() {
                 isVisible ? 'absolute' : 'static'
               } w-full h-[2px] transition-all duration-300 transform origin-center ${
                 isVisible ? 'rotate-45' : ''
-              } ${
-                isVisible
-                  ? 'bg-white'
-                  : isMain
-                    ? 'bg-[#000000]'
-                    : 'bg-[#8F7860]'
-              }`}
+              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#8F7860]'}`}
             />
-
             <span
               className={`${
                 isVisible ? 'absolute' : 'static'
               } w-full h-[2px] transition-all duration-300 transform origin-center ${
                 isVisible ? 'opacity-0' : ''
-              } ${
-                isVisible
-                  ? 'bg-white'
-                  : isMain
-                    ? 'bg-[#000000]'
-                    : 'bg-[#8F7860]'
-              }`}
+              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#8F7860]'}`}
             />
-
             <span
               className={`${
                 isVisible ? 'absolute' : 'static'
               } w-full h-[2px] transition-all duration-300 transform origin-center ${
                 isVisible ? '-rotate-45' : ''
-              } ${
-                isVisible
-                  ? 'bg-white'
-                  : isMain
-                    ? 'bg-[#000000]'
-                    : 'bg-[#8F7860]'
-              }`}
+              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#8F7860]'}`}
             />
           </div>
         </div>
 
         {isAnimating && (
           <>
+            {/* 오버레이 배경 */}
             <div
               className="absolute top-0 left-0 w-full h-screen bg-cover bg-center z-30"
-              style={{
-                backgroundImage: `url(${background})`,
-              }}
+              style={{ backgroundImage: `url(${background})` }}
             >
               <div className="absolute inset-0 bg-black opacity-60" />
             </div>
 
-            <div className="absolute top-[100px] left-0 w-full h-[calc(100vh-100px)] z-50 flex flex-col items-start pl-8 pt-10 gap-8">
+            {/* 메뉴 영역: 헤더 높이(64px) 기준으로 계산 */}
+            <div
+              className="absolute left-0 w-full z-50 flex flex-col items-start pl-8 pt-10 gap-8"
+              style={
+                {
+                  top: 'var(--header-h)',
+                  height: 'calc(100vh - var(--header-h))',
+                  '--header-h': '64px',
+                } as CSSVars
+              }
+            >
               {menuItems.map((item, index) => (
                 <div
                   key={item.name}
