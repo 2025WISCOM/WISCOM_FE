@@ -315,6 +315,7 @@ import Tabs, { type CategoryUI } from '../components/works/Tabs'
 import FrameCard from '../components/works/FrameCard'
 import WorkExplan from '../components/works/WorkExplan'
 import { fetchWorkList, type WorkItem } from '../apis/works'
+import { useNavigate } from 'react-router-dom'
 
 export default function WorksPage() {
   const [active, setActive] = useState<CategoryUI>('ALL')
@@ -322,6 +323,7 @@ export default function WorksPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [selected, setSelected] = useState<WorkItem | null>(null)
+  const navigate = useNavigate()
 
   // 가운데 카드 인덱스
   const [centerIdx, setCenterIdx] = useState(0)
@@ -372,7 +374,6 @@ export default function WorksPage() {
     }
   }, [items, scrollToCenter])
 
-  // 자동 포커스 순환(3초)
   useEffect(() => {
     if (items.length <= 1) return
     const id = setInterval(() => {
@@ -438,11 +439,9 @@ export default function WorksPage() {
                       image={w.imageUrl}
                       size="lg"
                       focused={isCenter}
-                      onClick={() => {
-                        setCenterIdx(i)
-                        setSelected(w)
-                        scrollToCenter(i)
-                      }}
+                      onClick={() =>
+                        navigate(`/works/${active.toLowerCase()}/${w.id}`)
+                      }
                     />
                   </div>
                 )
