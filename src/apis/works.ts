@@ -25,9 +25,8 @@ interface ApiResponse {
 
 const BASE_URL = 'https://2025-wiscom-backend.store'
 
-// UI 카테고리 → 서버 카테고리 변환
 const toServerCategory = (c: CategoryUI): string => {
-  if (c === 'WEB&APP') return 'WEB_APP' // ✅ 변환 처리
+  if (c === 'WEB&APP') return 'WEB_APP'
   return c.toLowerCase()
 }
 

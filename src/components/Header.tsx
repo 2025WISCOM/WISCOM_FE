@@ -85,7 +85,7 @@ function Header() {
           isMain ? 'bg-transparent' : 'bg-[#FFF5E9]'
         }`}
       > */}
-      <div className="w-full h-[56px] flex justify-between items-center px-6 text-[#42372C] font-serif relative z-50 bg-[#F5F3F0]">
+      <div className="w-full h-[64px] flex justify-between items-center px-6 text-[#42372C] font-serif relative z-50 bg-[#F5F3F0]">
         {/* <div
           className={`text-[32px] font-bold cursor-pointer font-playfairSC transition-opacity duration-300 ${
             isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
