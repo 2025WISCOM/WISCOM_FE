@@ -6,6 +6,8 @@ import Footer from '../components/about/Footer'
 const RootLayout = () => {
   const location = useLocation()
   const hideHeader = location.pathname === '/splash'
+  const hideFooter =
+    location.pathname === '/splash' || location.pathname === '/'
 
   return (
     <div
@@ -13,7 +15,7 @@ const RootLayout = () => {
       style={{ backgroundImage: `url(${backgroundImg})` }}
     >
       <div
-        className="w-full max-w-[375px] h-[min(700px,100vh)] flex flex-col relative bg-[#F5F3F0] overflow-hidden shadow-lg"
+        className="w-full max-w-[393px] h-[min(700px,100vh)] flex flex-col relative bg-[#F5F3F0] overflow-hidden shadow-lg"
         id="app-container"
       >
         {/* 헤더 */}
@@ -22,7 +24,7 @@ const RootLayout = () => {
         {/* Outlet이 차지한 높이 밑에 Footer가 바로 옴 */}
         <main className="overflow-y-auto">
           <Outlet />
-          <Footer />
+          {!hideFooter && <Footer />}
         </main>
       </div>
 
