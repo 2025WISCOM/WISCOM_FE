@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useGuestbook } from '../apis/guestbook/useGuestbook'
 import GuestBookItem from '../components/guestbook/GuestBookItem'
 import GuestBookWrite from '../components/guestbook/GuestBookWrite'
@@ -6,12 +6,20 @@ import Pagination from '../components/guestbook/Pagination'
 import Footer from '../components/about/Footer'
 import SearchIcon from '../assets/search.svg'
 import MessageIcon from '../assets/messagenone.svg'
+import GuestBookDetail from '../components/guestbook/GuestBookDetail'
 
 const PAGE_SIZE = 6
+
+type SelectedItem = {
+  toName: string
+  fromName: string
+  message: string
+} | null
 
 const GuestBookPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [keyword, setKeyword] = useState('')
+  const [selected, setSelected] = useState<SelectedItem>(null)
 
   const { items, totalPages, reload } = useGuestbook({
     page: currentPage,
@@ -29,6 +37,24 @@ const GuestBookPage = () => {
     setCurrentPage(1)
     reload()
   }
+
+  const closeModal = useCallback(() => setSelected(null), [])
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal()
+    }
+    if (selected) {
+      document.body.classList.add('overflow-hidden')
+      window.addEventListener('keydown', onKeyDown)
+    } else {
+      document.body.classList.remove('overflow-hidden')
+    }
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      document.body.classList.remove('overflow-hidden')
+    }
+  }, [selected, closeModal])
 
   return (
     <div className="flex flex-col">
@@ -68,6 +94,13 @@ const GuestBookPage = () => {
                 toName={g.recipient}
                 fromName={g.author}
                 message={g.content}
+                onClick={() =>
+                  setSelected({
+                    toName: g.recipient,
+                    fromName: g.author,
+                    message: g.content,
+                  })
+                }
               />
             ))}
           </div>
@@ -82,6 +115,24 @@ const GuestBookPage = () => {
       />
 
       <Footer />
+
+      {selected && (
+        <div
+          className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={closeModal} // 배경 클릭 시 닫기
+        >
+          <div
+            className="relative"
+            onClick={(e) => e.stopPropagation()} // 카드 클릭은 전파 막기
+          >
+            <GuestBookDetail
+              toName={selected.toName}
+              fromName={selected.fromName}
+              message={selected.message}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

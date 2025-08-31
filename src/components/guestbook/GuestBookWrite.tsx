@@ -48,14 +48,14 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
 
         <div className="relative flex flex-col">
           {/* To */}
-          <div className="flex gap-[4px]">
+          <div className="flex gap-[4px] items-center">
             <p className="text-[20px]">To.</p>
             <input
               type="text"
               placeholder="받는 사람"
               value={toName}
               onChange={(e) => setToName(e.target.value)}
-              className="text-[15px] placeholder:text-[#999] outline-none"
+              className="text-[15px] placeholder:text-[#999] outline-none leading-[20px] "
             />
           </div>
 
@@ -64,19 +64,26 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
             placeholder="새로운 여정을 시작하는 학생들에게 응원과 축하의 메시지를 남겨주세요!"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            maxLength={136}
             className="w-[240px] h-[160px] mt-[8px] mb-[16px] text-[15px] placeholder:text-[#999] outline-none resize-none"
           />
 
           {/* From */}
-          <div className="flex gap-[4px]">
-            <p className="text-[20px]">From.</p>
-            <input
-              type="text"
-              placeholder="보내는 사람"
-              value={fromName}
-              onChange={(e) => setFromName(e.target.value)}
-              className="text-[15px] placeholder:text-[#999] outline-none"
-            />
+          <div className="flex items-center w-[240px] box-border">
+            <div className="flex items-center gap-[4px] flex-1 min-w-0">
+              <p className="text-[20px] whitespace-nowrap">From.</p>
+              <input
+                type="text"
+                placeholder="보내는 사람"
+                value={fromName}
+                onChange={(e) => setFromName(e.target.value)}
+                className="text-[15px] placeholder:text-[#999] outline-none flex-1 min-w-0 leading-[20px] "
+              />
+            </div>
+
+            <p className="ml-[8px] text-[12px] text-[#999] shrink-0">
+              {message.length}/136
+            </p>
           </div>
         </div>
       </div>
