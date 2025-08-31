@@ -87,23 +87,22 @@
 
 // export default WorksDetailPage
 
-// pages/WorksDetailPage.tsx
-import { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import DetailSection from '../components/workdetail/DetailSection'
 import MetaList from '../components/workdetail/MetaList'
 import WorkDetail from '../components/workdetail/WorkDetail'
 import PreviewImage from '../components/workdetail/PreviewImage'
+import DetailNav from '../components/workdetail/DetailNav'
 import type { CategoryUI } from '../components/works/Tabs'
 import {
   fetchWorkDetail,
   type WorkDetail as WorkDetailType,
 } from '../apis/works'
+import WorkHeader from '../components/workdetail/WorkHeader'
 
-/** URL 슬러그 → UI 카테고리로 변환 */
-function slugToCategoryUI(slug: string | undefined): CategoryUI {
+function slugToCategoryUI(slug?: string): CategoryUI {
   if (!slug) return 'ALL'
-  // WorksPage에서 toLowerCase()로 만들었던 경로 기준: 'web&app'만 예외 처리
   if (slug.toLowerCase() === 'web&app') return 'WEB&APP'
   return slug.toUpperCase() as CategoryUI
 }
@@ -115,6 +114,7 @@ export default function WorksDetailPage() {
     [params.category],
   )
   const workId = Number(params.id)
+  const navigate = useNavigate()
 
   const [data, setData] = useState<WorkDetailType | null>(null)
   const [loading, setLoading] = useState(false)
@@ -141,6 +141,19 @@ export default function WorksDetailPage() {
     return () => ac.abort()
   }, [category, workId])
 
+  // Prev/Next 작품 이동
+  const goPrev = useCallback(() => {
+    if (!data?.prev) return
+    navigate(`/works/${params.category}/${data.prev}`)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [data?.prev, navigate, params.category])
+
+  const goNext = useCallback(() => {
+    if (!data?.next) return
+    navigate(`/works/${params.category}/${data.next}`)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [data?.next, navigate, params.category])
+
   if (loading) {
     return (
       <div className="w-full min-h-screen py-6 flex items-start justify-center text-[#6F5E4B]">
@@ -148,7 +161,6 @@ export default function WorksDetailPage() {
       </div>
     )
   }
-
   if (error) {
     return (
       <div className="w-full min-h-screen py-6 flex items-start justify-center text-red-700">
@@ -156,21 +168,21 @@ export default function WorksDetailPage() {
       </div>
     )
   }
-
   if (!data) return null
 
-  const firstImage = data.imageUrls?.[0]?.url
+  const currentImage = data.imageUrls?.[0]?.url
   const longBody = data.description || data.midDescription || ''
 
   return (
-    <div className="w-full min-h-screen py-3">
+    <div className="w-full pb-3">
+      <WorkHeader instagramUrl={data.instagramUrl} githubUrl={data.githubUrl} />
+
       <WorkDetail
-        // 프리뷰: Prev/Next 컨트롤 일단 제거(핸들러 미전달)
         preview={
-          firstImage ? (
+          currentImage ? (
             <div className="px-4">
               <PreviewImage
-                src={firstImage}
+                src={currentImage}
                 alt={data.projectName}
                 ratio="16/9"
                 rounded="rounded-2xl"
@@ -192,7 +204,14 @@ export default function WorksDetailPage() {
           />
         }
         body={<DetailSection>{longBody}</DetailSection>}
-        // 네비(Prev/Next) 제외
+        nav={
+          <DetailNav
+            onPrev={goPrev}
+            onNext={goNext}
+            prevDisabled={!data.prev}
+            nextDisabled={!data.next}
+          />
+        }
       />
     </div>
   )
