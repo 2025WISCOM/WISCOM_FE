@@ -37,8 +37,8 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-[380px] h-[380px] flex justify-center items-center">
-        <div className="absolute w-[290px] h-[290px] bg-[#fff]" />
+      <div className="relative w-[360px] h-[360px] flex justify-center items-center">
+        <div className="absolute w-[280px] h-[270px] bg-[#fff]" />
 
         <img
           src={MainFrame}
