@@ -3,7 +3,6 @@ import { useGuestbook } from '../apis/guestbook/useGuestbook'
 import GuestBookItem from '../components/guestbook/GuestBookItem'
 import GuestBookWrite from '../components/guestbook/GuestBookWrite'
 import Pagination from '../components/guestbook/Pagination'
-import Footer from '../components/about/Footer'
 import SearchIcon from '../assets/search.svg'
 import MessageIcon from '../assets/messagenone.svg'
 import GuestBookDetail from '../components/guestbook/GuestBookDetail'
@@ -113,8 +112,6 @@ const GuestBookPage = () => {
         onChange={setCurrentPage}
         className="mb-[48px]"
       />
-
-      <Footer />
 
       {selected && (
         <div
