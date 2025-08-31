@@ -12,7 +12,7 @@ const RootLayout = () => {
       style={{ backgroundImage: `url(${backgroundImg})` }}
     >
       <div
-        className="w-full max-w-[360px] h-[min(700px,100vh)] flex flex-col relative bg-[#FFF5E9]/90 overflow-hidden shadow-lg"
+        className="w-full max-w-[360px] h-[min(700px,100vh)] flex flex-col relative bg-[#F5F3F0] overflow-hidden shadow-lg"
         id="app-container"
       >
         {!hideHeader && <Header />}
