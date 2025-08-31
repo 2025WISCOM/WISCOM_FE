@@ -34,7 +34,7 @@ const Footer = () => {
       <div className="flex items-center gap-2 pb-2">
         <img src={logo} alt="덕성여대 로고" className="w-[128px] h-[28px]" />
       </div>
-      <span>@ Computer Engineering 2024. All rights reserved.</span>
+      <span>ⓒ Computer Engineering 2024. All rights reserved.</span>
     </footer>
   )
 }

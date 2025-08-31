@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         element: <WorksPage />,
       },
       {
-        path: 'works/:id',
+        path: 'worksdetail',
         element: <WorksDetailPage />,
       },
       {

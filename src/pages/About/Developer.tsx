@@ -3,7 +3,6 @@ import ExhibitionInfo from '../../components/about/intro/ExhibitionInfo'
 import IntroductionText from '../../components/about/intro/IntroductionText'
 import CommitteeInfo from '../../components/about/intro/CommitteeInfo'
 import NavBar from '../../components/about/NavBar'
-import Footer from '../../components/about/Footer'
 
 const Developer = () => {
   return (
@@ -13,7 +12,6 @@ const Developer = () => {
       <ExhibitionInfo />
       <IntroductionText />
       <CommitteeInfo />
-      <Footer />
     </div>
   )
 }

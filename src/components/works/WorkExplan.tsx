@@ -18,7 +18,7 @@ export default function WorkExplan({
       <h3 className="text-[22px] font-semibold tracking-tight text-[#8F7860]">
         {title}
       </h3>
-      <p className="mt-1 text-[15px] text-[#8F7860]">{subtitle}</p>
+      <p className="text-[15px] text-[#8F7860]">{subtitle}</p>
 
       <hr className="mx-auto my-4 w-[86%] border-t border-[#B19D87]" />
       <div className="text-[15px] text-[#000000]">
