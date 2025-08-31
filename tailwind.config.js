@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         playfairSC: ['"Playfair Display SC"', 'serif'],
+        butler: ['Butler', 'serif'],
       },
     },
   },
