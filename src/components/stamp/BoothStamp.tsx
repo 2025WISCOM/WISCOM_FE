@@ -84,7 +84,7 @@ const BoothStamp = () => {
       </div>
 
       <div className="grid grid-cols-3 gap-[24px] px-[35px] place-items-center mb-[36px]">
-        {Array.from({ length: 15 }).map((_, idx) => (
+        {Array.from({ length: 17 }).map((_, idx) => (
           <div
             key={idx}
             className="relative w-[80px] h-[80px] flex items-center justify-center  cursor-pointer"
@@ -123,7 +123,7 @@ const BoothStamp = () => {
         ))}
 
         {/* 임시 QR 생성 */}
-        {Array.from({ length: 15 }).map((_, idx) => (
+        {Array.from({ length: 17 }).map((_, idx) => (
           <div key={idx}>
             <div>{idx + 1} 번째 QR</div>
             <QRCodeSVG value={String(idx + 1)} size={64} />
