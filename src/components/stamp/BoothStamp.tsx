@@ -6,6 +6,7 @@ import StampImg from '../../assets/duksung_fantasy_transparent.png'
 import ComputerIcon from '../../assets/booth_stamp_computer.svg'
 import ComputerSuccessIcon from '../../assets/booth_stamp_computer_success.svg'
 import StampIcon from '../../assets/booth_stamp_success.svg'
+import ScanModal from './ScanModal'
 
 const BoothStamp = () => {
   const [isScanning, setIsScanning] = useState<boolean>(false)
@@ -131,24 +132,7 @@ const BoothStamp = () => {
         </div>
 
         {/* QR 스캔 */}
-        {isScanning && (
-          <div className="px-[20px] py-[40px] fixed inset-0 max-w-[400px] w-full z-50 m-auto bg-[#F5F3F0]">
-            <div className="pt-[20px] px-[20px]">
-              <h1 className="text-[#8F7860] text-[22px] font-medium leading-[32px]">
-                <span className="text-[#42372C]">큐알코드</span>를
-                <br />
-                스캔해주세요
-              </h1>
-            </div>
-            <video
-              ref={videoRef}
-              muted
-              autoPlay
-              playsInline
-              className="w-full h-[570px] mt-[100px] rounded-[30px] object-cover"
-            />
-          </div>
-        )}
+        {isScanning && <ScanModal videoRef={videoRef} />}
 
         <div className="sticky bottom-[32px] px-[16px] w-full mb-[32px]">
           <button
