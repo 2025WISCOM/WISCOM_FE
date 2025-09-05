@@ -9,6 +9,93 @@ import StampIcon from '../../assets/booth_stamp_success.svg'
 import ScanModal from './ScanModal'
 
 const BoothStamp = () => {
+  const BoothData = [
+    {
+      id: 1,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 2,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 3,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 4,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 5,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 6,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 7,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 8,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 9,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 10,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 11,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 12,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 13,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 14,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 15,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 16,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 17,
+      content:
+        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+  ]
   const [isScanning, setIsScanning] = useState<boolean>(false)
 
   // 부스별 스캔 여부 저장
@@ -24,6 +111,11 @@ const BoothStamp = () => {
       scannerRef.current?.stop()
 
       const boothId = result.data
+      console.log(boothId)
+
+      const content = BoothData.find((booth) => String(booth.id) === boothId)
+      console.log(content?.content)
+
       const updatedBooths = { ...scannedBooth, [boothId]: true }
 
       setScannedBooth(updatedBooths)
@@ -123,10 +215,10 @@ const BoothStamp = () => {
           ))}
 
           {/* 임시 QR 생성 */}
-          {Array.from({ length: 17 }).map((_, idx) => (
-            <div key={idx}>
-              <div>{idx + 1} 번째 QR</div>
-              <QRCodeSVG value={String(idx + 1)} size={64} />
+          {BoothData.map((booth) => (
+            <div key={booth.id}>
+              <div>{booth.id} 번째 QR</div>
+              <QRCodeSVG value={String(booth.id)} size={64} />
             </div>
           ))}
         </div>
