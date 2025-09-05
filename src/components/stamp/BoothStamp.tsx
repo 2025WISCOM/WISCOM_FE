@@ -39,7 +39,7 @@ const BoothStamp = () => {
 
   const options = {
     preferredCamera: 'environment',
-    highlightScanRegion: true,
+    highlightScanRegion: false,
   }
 
   useEffect(() => {
@@ -132,7 +132,9 @@ const BoothStamp = () => {
         </div>
 
         {/* QR 스캔 */}
-        {isScanning && <ScanModal videoRef={videoRef} />}
+        {isScanning && (
+          <ScanModal videoRef={videoRef} setIsScanning={setIsScanning} />
+        )}
 
         <div className="sticky bottom-[32px] px-[16px] w-full mb-[32px]">
           <button
