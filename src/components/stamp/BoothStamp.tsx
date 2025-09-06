@@ -7,93 +7,94 @@ import ComputerIcon from '../../assets/booth_stamp_computer.svg'
 import ComputerSuccessIcon from '../../assets/booth_stamp_computer_success.svg'
 import StampIcon from '../../assets/booth_stamp_success.svg'
 import ScanModal from './ScanModal'
+import Modal from './Modal'
 
 const BoothStamp = () => {
   const BoothData = [
     {
       id: 1,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '1혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 2,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '2혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 3,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '3혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 4,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '4혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 5,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '5혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 6,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '6혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 7,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '7혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 8,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '8혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 9,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '9혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 10,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '10혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 11,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '11혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 12,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '12혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 13,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '13혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 14,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '14혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 15,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '15혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 16,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '16혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
     {
       id: 17,
       content:
-        '혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+        '17혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
     },
   ]
   const [isScanning, setIsScanning] = useState<boolean>(false)
@@ -103,6 +104,9 @@ const BoothStamp = () => {
     [boothId: string]: boolean
   }>({})
 
+  const [showModal, setShowModal] = useState(false)
+  const [content, setContent] = useState<string>('')
+
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const scannerRef = useRef<QrScanner | null>(null)
 
@@ -111,10 +115,9 @@ const BoothStamp = () => {
       scannerRef.current?.stop()
 
       const boothId = result.data
-      console.log(boothId)
 
       const content = BoothData.find((booth) => String(booth.id) === boothId)
-      console.log(content?.content)
+      setContent(content?.content ?? '')
 
       const updatedBooths = { ...scannedBooth, [boothId]: true }
 
@@ -126,6 +129,7 @@ const BoothStamp = () => {
     setTimeout(() => {
       scannerRef.current?.destroy()
       setIsScanning(false)
+      setShowModal(true)
     }, 1000)
   }
 
@@ -181,7 +185,7 @@ const BoothStamp = () => {
           {Array.from({ length: 17 }).map((_, idx) => (
             <div
               key={idx}
-              className="relative w-[80px] h-[80px] flex items-center justify-center  cursor-pointer"
+              className="relative w-[80px] h-[80px] flex items-center justify-center"
             >
               {scannedBooth[String(idx + 1)] === true && (
                 <>
@@ -237,6 +241,9 @@ const BoothStamp = () => {
           </button>
         </div>
       </div>
+
+      {/* 스캔 이후 모달 */}
+      {showModal && <Modal content={content} setShowModal={setShowModal} />}
     </>
   )
 }
