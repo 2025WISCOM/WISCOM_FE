@@ -3,10 +3,10 @@ import { useGuestbook } from '../apis/guestbook/useGuestbook'
 import GuestBookItem from '../components/guestbook/GuestBookItem'
 import GuestBookWrite from '../components/guestbook/GuestBookWrite'
 import Pagination from '../components/guestbook/Pagination'
-import Footer from '../components/about/Footer'
 import SearchIcon from '../assets/search.svg'
 import MessageIcon from '../assets/messagenone.svg'
 import GuestBookDetail from '../components/guestbook/GuestBookDetail'
+import Modal from '../components/Modal'
 
 const PAGE_SIZE = 6
 
@@ -21,16 +21,21 @@ const GuestBookPage = () => {
   const [keyword, setKeyword] = useState('')
   const [selected, setSelected] = useState<SelectedItem>(null)
 
+  const [showModal, setShowModal] = useState(false)
+  const [modalContent, setModalContent] = useState('')
+
   const { items, totalPages, reload } = useGuestbook({
     page: currentPage,
     size: PAGE_SIZE,
     keyword,
   })
 
-  const handleSubmitted = () => {
+  const handleSubmitted = (fromName: string) => {
     setKeyword('')
     setCurrentPage(1)
     reload()
+    setModalContent(`${fromName} 학생에게\n소중한 마음이 전달됐습니다.`)
+    setShowModal(true)
   }
 
   const triggerSearch = () => {
@@ -114,17 +119,12 @@ const GuestBookPage = () => {
         className="mb-[48px]"
       />
 
-      <Footer />
-
       {selected && (
         <div
-          className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm"
-          onClick={closeModal} // 배경 클릭 시 닫기
+          className="absolute inset-0 z-[1000] flex items-center justify-center bg-black/70"
+          onClick={closeModal}
         >
-          <div
-            className="relative"
-            onClick={(e) => e.stopPropagation()} // 카드 클릭은 전파 막기
-          >
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
             <GuestBookDetail
               toName={selected.toName}
               fromName={selected.fromName}
@@ -132,6 +132,14 @@ const GuestBookPage = () => {
             />
           </div>
         </div>
+      )}
+
+      {showModal && (
+        <Modal
+          title={'방명록 작성 완료'}
+          content={modalContent}
+          setShowModal={setShowModal}
+        />
       )}
     </div>
   )

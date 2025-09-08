@@ -7,7 +7,7 @@ import ComputerIcon from '../../assets/booth_stamp_computer.svg'
 import ComputerSuccessIcon from '../../assets/booth_stamp_computer_success.svg'
 import StampIcon from '../../assets/booth_stamp_success.svg'
 import ScanModal from './ScanModal'
-import Modal from './Modal'
+import Modal from '../Modal'
 
 const BoothStamp = () => {
   const BoothData = [
@@ -243,7 +243,13 @@ const BoothStamp = () => {
       </div>
 
       {/* 스캔 이후 모달 */}
-      {showModal && <Modal content={content} setShowModal={setShowModal} />}
+      {showModal && (
+        <Modal
+          title={'스탬프 수집 완료'}
+          content={content}
+          setShowModal={setShowModal}
+        />
+      )}
     </>
   )
 }
