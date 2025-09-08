@@ -5,9 +5,9 @@ import Footer from '../components/about/Footer'
 
 const RootLayout = () => {
   const location = useLocation()
-  const hideHeader = location.pathname === '/splash'
-  const hideFooter =
-    location.pathname === '/splash' || location.pathname === '/'
+  const hideHeader = location.pathname === '/'
+  const hideFooter = location.pathname === '/' || location.pathname === '/main'
+  const isMain = location.pathname === '/main'
 
   return (
     <div
@@ -15,14 +15,23 @@ const RootLayout = () => {
       style={{ backgroundImage: `url(${backgroundImg})` }}
     >
       <div
-        className="w-full max-w-[393px] h-[min(700px,100vh)] flex flex-col relative bg-[#F5F3F0] overflow-hidden shadow-lg"
+        className={`w-full max-w-[393px] h-[min(800px,100vh)] flex flex-col relative ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
         id="app-container"
       >
         {/* 헤더 */}
-        {!hideHeader && <Header />}
+        {!hideHeader && (
+          <div
+            className={
+              isMain ? 'absolute top-0 left-0 right-0 z-50' : 'relative z-20'
+            }
+            style={isMain ? undefined : { height: '60px' }}
+          >
+            <Header />
+          </div>
+        )}
 
         {/* Outlet이 차지한 높이 밑에 Footer가 바로 옴 */}
-        <main className="overflow-y-auto">
+        <main className="flex-1 min-h-0 overflow-y-auto">
           <Outlet />
           {!hideFooter && <Footer />}
         </main>

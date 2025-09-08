@@ -6,8 +6,11 @@ import Ticket1 from '../assets/ticket_back1.png'
 import Ticket2 from '../assets/ticket_back2.png'
 import Stamp from '../assets/stamp.png'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const SplashPage = () => {
+  const navigate = useNavigate()
+
   const [animated, setAnimated] = useState(false)
   const [reveal, setReveal] = useState(false)
 
@@ -24,19 +27,32 @@ const SplashPage = () => {
     return () => clearTimeout(t2)
   }, [animated])
 
+  // 메인 페이지 이동
+  useEffect(() => {
+    if (!reveal) return
+    const t3 = setTimeout(() => {
+      navigate('/main')
+    }, 2000)
+    return () => clearTimeout(t3)
+  }, [reveal, navigate])
+
   return (
-    <div className="relative w-full h-[min(700px,100vh)] overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden">
       {/* 배경 이미지 */}
-      <img
-        src={Home}
-        alt="홈 배경"
-        className="absolute bottom-0 w-[453px] h-auto"
-      />
-      <img
-        src={Arch}
-        alt="아치 배경"
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[527px] h-auto max-w-none"
-      />
+      <div className="absolute inset-0 pointer-events-none">
+        <img
+          src={Home}
+          alt="홈 배경"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-none"
+          draggable={false}
+        />
+        <img
+          src={Arch}
+          alt="아치 배경"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-none"
+          draggable={false}
+        />
+      </div>
 
       {/* 배경 티켓 */}
       <div
