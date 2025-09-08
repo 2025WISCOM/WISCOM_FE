@@ -6,14 +6,106 @@ import StampImg from '../../assets/duksung_fantasy_transparent.png'
 import ComputerIcon from '../../assets/booth_stamp_computer.svg'
 import ComputerSuccessIcon from '../../assets/booth_stamp_computer_success.svg'
 import StampIcon from '../../assets/booth_stamp_success.svg'
+import ScanModal from './ScanModal'
+import Modal from './Modal'
 
 const BoothStamp = () => {
+  const BoothData = [
+    {
+      id: 1,
+      content:
+        '1혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 2,
+      content:
+        '2혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 3,
+      content:
+        '3혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 4,
+      content:
+        '4혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 5,
+      content:
+        '5혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 6,
+      content:
+        '6혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 7,
+      content:
+        '7혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 8,
+      content:
+        '8혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 9,
+      content:
+        '9혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 10,
+      content:
+        '10혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 11,
+      content:
+        '11혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 12,
+      content:
+        '12혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 13,
+      content:
+        '13혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 14,
+      content:
+        '14혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 15,
+      content:
+        '15혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 16,
+      content:
+        '16혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+    {
+      id: 17,
+      content:
+        '17혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
+    },
+  ]
   const [isScanning, setIsScanning] = useState<boolean>(false)
 
   // 부스별 스캔 여부 저장
   const [scannedBooth, setScannedBooth] = useState<{
     [boothId: string]: boolean
   }>({})
+
+  const [showModal, setShowModal] = useState(false)
+  const [content, setContent] = useState<string>('')
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const scannerRef = useRef<QrScanner | null>(null)
@@ -23,6 +115,10 @@ const BoothStamp = () => {
       scannerRef.current?.stop()
 
       const boothId = result.data
+
+      const content = BoothData.find((booth) => String(booth.id) === boothId)
+      setContent(content?.content ?? '')
+
       const updatedBooths = { ...scannedBooth, [boothId]: true }
 
       setScannedBooth(updatedBooths)
@@ -33,12 +129,13 @@ const BoothStamp = () => {
     setTimeout(() => {
       scannerRef.current?.destroy()
       setIsScanning(false)
+      setShowModal(true)
     }, 1000)
   }
 
   const options = {
     preferredCamera: 'environment',
-    highlightScanRegion: true,
+    highlightScanRegion: false,
   }
 
   useEffect(() => {
@@ -66,90 +163,87 @@ const BoothStamp = () => {
 
   return (
     <>
-      <div className="pt-[20px] px-[20px]">
-        <h1 className="text-[#8F7860] text-[22px] font-medium leading-[32px]">
-          Event
-          <span className="ml-[8px] text-[#8F7860] text-[15px] font-medium leading-[24px]">
-            부스를 돌며 스탬프를 모아보세요!
-          </span>
-        </h1>
-      </div>
+      <div>
+        <div className="pt-[20px] px-[20px]">
+          <h1 className="text-[#8F7860] text-[22px] font-medium leading-[32px]">
+            Event
+            <span className="ml-[8px] text-[#8F7860] text-[15px] font-medium leading-[24px]">
+              부스를 돌며 스탬프를 모아보세요!
+            </span>
+          </h1>
+        </div>
 
-      <div className="px-[20px] mt-[14px]">
-        <img
-          src={StampImg}
-          alt="부스 스탬프"
-          className="w-full h-full object-contain"
-        />
-      </div>
-
-      <div className="grid grid-cols-3 gap-[24px] px-[35px] place-items-center mb-[36px]">
-        {Array.from({ length: 15 }).map((_, idx) => (
-          <div
-            key={idx}
-            className="relative w-[80px] h-[80px] flex items-center justify-center  cursor-pointer"
-          >
-            {scannedBooth[String(idx + 1)] === true && (
-              <>
-                <img
-                  key={idx}
-                  onClick={() => setIsScanning(true)}
-                  src={ComputerSuccessIcon}
-                  alt="컴퓨터 아이콘"
-                  className="w-full h-full object-contain absolute inset-0"
-                />
-                <p className="font-['Butler'] text-[#D2C6BA] text-[22px] font-medium leading-[32px] relative top-[-4px]">
-                  {idx + 1}
-                </p>
-                <img src={StampIcon} alt="qr인증" className="absolute" />
-              </>
-            )}
-
-            {scannedBooth[String(idx + 1)] !== true && (
-              <>
-                <img
-                  key={idx}
-                  onClick={() => setIsScanning(true)}
-                  src={ComputerIcon}
-                  alt="컴퓨터 아이콘"
-                  className="w-full h-full object-contain absolute inset-0"
-                />
-                <p className="font-['Butler'] text-[#9D8469] text-[22px] font-medium leading-[32px] relative top-[-4px]">
-                  {idx + 1}
-                </p>
-              </>
-            )}
-          </div>
-        ))}
-
-        {/* 임시 QR 생성 */}
-        {Array.from({ length: 15 }).map((_, idx) => (
-          <div key={idx}>
-            <div>{idx + 1} 번째 QR</div>
-            <QRCodeSVG value={String(idx + 1)} size={64} />
-          </div>
-        ))}
-      </div>
-
-      {/* QR 스캔 */}
-      {isScanning && (
-        <div className="px-[20px] py-[40px] fixed inset-0 max-w-[400px] w-full z-50 m-auto bg-[#F5F3F0]">
-          <div className="pt-[20px] px-[20px]">
-            <h1 className="text-[#8F7860] text-[22px] font-medium leading-[32px]">
-              <span className="text-[#42372C]">큐알코드</span>를
-              <br />
-              스캔해주세요
-            </h1>
-          </div>
-          <video
-            ref={videoRef}
-            muted
-            autoPlay
-            playsInline
-            className="w-full h-[570px] mt-[100px] rounded-[30px] object-cover"
+        <div className="px-[20px] mt-[14px]">
+          <img
+            src={StampImg}
+            alt="부스 스탬프"
+            className="w-full h-full object-contain"
           />
         </div>
-      )}
+
+        <div className="grid grid-cols-3 gap-[24px] px-[35px] place-items-center mb-[36px]">
+          {Array.from({ length: 17 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="relative w-[80px] h-[80px] flex items-center justify-center"
+            >
+              {scannedBooth[String(idx + 1)] === true && (
+                <>
+                  <img
+                    key={idx}
+                    src={ComputerSuccessIcon}
+                    alt="컴퓨터 아이콘"
+                    className="w-full h-full object-contain absolute inset-0"
+                  />
+                  <p className="font-['Butler'] text-[#D2C6BA] text-[22px] font-medium leading-[32px] relative top-[-4px]">
+                    {idx + 1}
+                  </p>
+                  <img src={StampIcon} alt="qr인증" className="absolute" />
+                </>
+              )}
+
+              {scannedBooth[String(idx + 1)] !== true && (
+                <>
+                  <img
+                    key={idx}
+                    src={ComputerIcon}
+                    alt="컴퓨터 아이콘"
+                    className="w-full h-full object-contain absolute inset-0"
+                  />
+                  <p className="font-['Butler'] text-[#9D8469] text-[22px] font-medium leading-[32px] relative top-[-4px]">
+                    {idx + 1}
+                  </p>
+                </>
+              )}
+            </div>
+          ))}
+
+          {/* 임시 QR 생성 */}
+          {BoothData.map((booth) => (
+            <div key={booth.id}>
+              <div>{booth.id} 번째 QR</div>
+              <QRCodeSVG value={String(booth.id)} size={64} />
+            </div>
+          ))}
+        </div>
+
+        {/* QR 스캔 */}
+        {isScanning && (
+          <ScanModal videoRef={videoRef} setIsScanning={setIsScanning} />
+        )}
+
+        <div className="sticky bottom-[32px] px-[16px] w-full mb-[32px]">
+          <button
+            onClick={() => setIsScanning(true)}
+            className="w-full bg-[#56493A] rounded-[40px] h-[48px] text-[#fff] text-[20px] font-bold leading-[24px] font-['Butler'] cursor-pointer"
+          >
+            QR Scan
+          </button>
+        </div>
+      </div>
+
+      {/* 스캔 이후 모달 */}
+      {showModal && <Modal content={content} setShowModal={setShowModal} />}
     </>
   )
 }

@@ -1,17 +1,11 @@
-import PosterSection from '../../components/about/intro/PosterSection'
-import ExhibitionInfo from '../../components/about/intro/ExhibitionInfo'
-import IntroductionText from '../../components/about/intro/IntroductionText'
-import CommitteeInfo from '../../components/about/intro/CommitteeInfo'
 import NavBar from '../../components/about/NavBar'
+import TeamGrid from '../../components/about/developer/TeamGrid'
 
 const Developer = () => {
   return (
     <div className="font-[Pretendard] min-h-screen flex flex-col">
       <NavBar />
-      <PosterSection />
-      <ExhibitionInfo />
-      <IntroductionText />
-      <CommitteeInfo />
+      <TeamGrid />
     </div>
   )
 }
