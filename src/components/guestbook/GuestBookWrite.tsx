@@ -4,7 +4,7 @@ import MainFrame from '../../assets/guestbook_main.svg'
 const API_BASE = import.meta.env.VITE_API_BASE_URL
 
 interface Props {
-  onSubmitted?: () => void
+  onSubmitted?: (fromName: string) => void
 }
 
 const GuestBookWrite = ({ onSubmitted }: Props) => {
@@ -32,7 +32,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
     setMessage('')
     setFromName('')
 
-    onSubmitted?.()
+    onSubmitted?.(fromName)
   }
 
   return (
@@ -90,7 +90,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
 
       <button
         onClick={handleSubmit}
-        className={`w-[132px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A]' : 'bg-[#DDD]'}`}
+        className={`w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A]' : 'bg-[#DDD]'}`}
       >
         Send
       </button>
