@@ -27,7 +27,7 @@ function Header() {
   const setIsVisibleFalse = () => setIsVisible(false)
 
   const menuItems = [
-    { name: 'HOME', path: '/' },
+    { name: 'HOME', path: '/main' },
     { name: 'ABOUT', path: '/about/introduction' },
     { name: 'WORKS', path: '/works' },
     { name: 'GUESTBOOK', path: '/guestbook' },
@@ -78,7 +78,7 @@ function Header() {
       `}</style>
 
       <div
-        className="w-full flex-shrink-0 flex justify-between items-center px-6 text-[#42372C] font-serif relative z-50 bg-[#F5F3F0] h-[var(--header-h)]"
+        className="w-full flex-shrink-0 flex justify-between items-center px-6 text-[#42372C] font-serif relative z-50 bg-transparent h-[var(--header-h)]"
         style={{ '--header-h': '64px' } as CSSVars}
       >
         <button
