@@ -45,7 +45,7 @@ const MainPage = () => {
     const to = setTimeout(() => {
       sessionStorage.removeItem('fromSplash')
       navigate('/about/introduction', { replace: true })
-    }, 1500)
+    }, 4500)
     return () => clearTimeout(to)
   }, [fromSplash, navigate])
 
