@@ -120,6 +120,15 @@ export default function WorksDetailPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // 이미지 슬라이드 인덱스
+  const [imgIdx, setImgIdx] = useState(0)
+
+  // 작품이 바뀔 때 이미지 인덱스 리셋
+  useEffect(() => {
+    setImgIdx(0)
+  }, [category, workId])
+
+  // 상세 데이터 로드
   useEffect(() => {
     if (!workId || Number.isNaN(workId)) {
       setError('잘못된 작품 ID입니다.')
@@ -170,7 +179,16 @@ export default function WorksDetailPage() {
   }
   if (!data) return null
 
-  const currentImage = data.imageUrls?.[0]?.url
+  // 이미지 배열 처리
+  const images = (data.imageUrls ?? []).map((i) => i.url)
+  const hasImages = images.length > 0
+  const canSlide = images.length > 1
+  const currentImage = hasImages ? images[imgIdx] : undefined
+
+  // 이미지 이동 핸들러
+  const imgPrev = () => setImgIdx((i) => Math.max(0, i - 1))
+  const imgNext = () => setImgIdx((i) => Math.min(images.length - 1, i + 1))
+
   const longBody = data.description || data.midDescription || ''
 
   return (
@@ -179,16 +197,54 @@ export default function WorksDetailPage() {
 
       <WorkDetail
         preview={
-          currentImage ? (
+          hasImages ? (
             <div className="px-4">
               <PreviewImage
-                src={currentImage}
+                src={currentImage as string}
                 alt={data.projectName}
                 ratio="16/9"
                 rounded="rounded-2xl"
+                {...(canSlide && {
+                  onPrev: imgPrev,
+                  onNext: imgNext,
+                  prevDisabled: imgIdx <= 0,
+                  nextDisabled: imgIdx >= images.length - 1,
+                })}
               />
+
+              {canSlide && (
+                <div className="mt-2 flex gap-2 overflow-x-auto px-1">
+                  {images.map((url, i) => (
+                    <button
+                      key={url}
+                      type="button"
+                      onClick={() => setImgIdx(i)}
+                      className={[
+                        'relative h-16 w-28 shrink-0 border transition rounded-md overflow-hidden',
+                        i === imgIdx
+                          ? 'border-[#6F5E4B]'
+                          : 'border-transparent opacity-70 hover:opacity-100',
+                      ].join(' ')}
+                      aria-label={`미리보기 ${i + 1}`}
+                    >
+                      <img
+                        src={url}
+                        alt={`thumbnail-${i + 1}`}
+                        className="h-full w-full object-cover"
+                        draggable={false}
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-          ) : undefined
+          ) : (
+            <div className="px-4">
+              <div className="h-[240px] w-full rounded-2xl bg-[#D9D9D9] border border-white/40 flex items-center justify-center text-[#7A6C5E]">
+                이미지가 없습니다.
+              </div>
+            </div>
+          )
         }
         title={data.projectName}
         subtitle={data.shortDescription}

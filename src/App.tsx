@@ -19,46 +19,18 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <NotFoundPage />,
     children: [
-      {
-        index: true,
-        element: <SplashPage />,
-      },
-      {
-        path: 'main',
-        element: <MainPage />,
-      },
-      {
-        path: 'about/introduction',
-        element: <AboutIntroductionPage />,
-      },
-      {
-        path: 'about/congratulation',
-        element: <AboutCongratulationPage />,
-      },
-      {
-        path: 'about/developer',
-        element: <AboutDeveloperPage />,
-      },
-      {
-        path: 'about/map',
-        element: <AboutMapPage />,
-      },
-      {
-        path: 'works',
-        element: <WorksPage />,
-      },
-      {
-        path: 'works/:category/:id',
-        element: <WorksDetailPage />,
-      },
-      {
-        path: 'guestbook',
-        element: <GuestBookPage />,
-      },
-      {
-        path: 'stamp',
-        element: <StampPage />,
-      },
+      // '/'로 들어오면 SplashPage
+      { index: true, element: <SplashPage /> },
+
+      { path: 'main', element: <MainPage /> },
+      { path: 'about/introduction', element: <AboutIntroductionPage /> },
+      { path: 'about/congratulation', element: <AboutCongratulationPage /> },
+      { path: 'about/developer', element: <AboutDeveloperPage /> },
+      { path: 'about/map', element: <AboutMapPage /> },
+      { path: 'works', element: <WorksPage /> },
+      { path: 'works/:category/:id', element: <WorksDetailPage /> },
+      { path: 'guestbook', element: <GuestBookPage /> },
+      { path: 'stamp', element: <StampPage /> },
     ],
   },
 ])

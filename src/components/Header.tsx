@@ -59,11 +59,11 @@ function Header() {
     if (isVisible) {
       toggleMenu()
       setTimeout(() => {
-        navigate('/')
+        navigate('/main')
         setIsVisibleFalse()
       }, 500)
     } else {
-      navigate('/')
+      navigate('/main')
       setIsVisibleFalse()
     }
   }
@@ -84,7 +84,7 @@ function Header() {
         <button
           type="button"
           onClick={handleClickWiscom}
-          className={`transition-opacity duration-300 ${
+          className={`transition-opacity duration-300 cursor-pointer ${
             isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
           aria-label="WISCOM 홈으로 이동"
