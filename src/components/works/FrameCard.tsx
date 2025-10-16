@@ -63,7 +63,7 @@ export default function FrameCard({
           <img
             src={src}
             alt="work"
-            className="h-[75%] w-full object-cover"
+            className="h-[90%] w-full object-cover"
             loading="lazy"
           />
         </div>
