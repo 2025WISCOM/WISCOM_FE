@@ -76,11 +76,13 @@ export default function WorksPage() {
   }, [items.length, scrollToCenter])
 
   return (
-    <div className="w-full min-h-screen text-[#2c2620]">
+    <div className="w-full text-[#2c2620]">
       <div className="mx-auto max-w-[960px] pt-4 pb-5">
         {/* 탭 */}
-        <div className="w-full flex items-center justify-center">
-          <Tabs value={active} onChange={setActive} />
+        <div className="sticky top-0 z-5 bg-[#F5F3F0]/95 backdrop-blur-[2px] border-b border-[#C8B7A6]">
+          <div className="w-full flex items-center justify-center">
+            <Tabs value={active} onChange={setActive} />
+          </div>
         </div>
 
         {/* 상태 */}
