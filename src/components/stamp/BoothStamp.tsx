@@ -8,95 +8,9 @@ import ComputerSuccessIcon from '../../assets/booth_stamp_computer_success.svg'
 import StampIcon from '../../assets/booth_stamp_success.svg'
 import ScanModal from './ScanModal'
 import Modal from '../Modal'
+import BoothData from '../../data/boothData.json'
 
 const BoothStamp = () => {
-  const BoothData = [
-    {
-      id: 1,
-      content:
-        '1혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 2,
-      content:
-        '2혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 3,
-      content:
-        '3혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 4,
-      content:
-        '4혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 5,
-      content:
-        '5혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 6,
-      content:
-        '6혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 7,
-      content:
-        '7혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 8,
-      content:
-        '8혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 9,
-      content:
-        '9혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 10,
-      content:
-        '10혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 11,
-      content:
-        '11혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 12,
-      content:
-        '12혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 13,
-      content:
-        '13혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 14,
-      content:
-        '14혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 15,
-      content:
-        '15혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 16,
-      content:
-        '16혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-    {
-      id: 17,
-      content:
-        '17혈당히어로 : 객체 검출 모델 기반 당뇨병 환자 레시피 추천 서비스',
-    },
-  ]
   const [isScanning, setIsScanning] = useState<boolean>(false)
 
   // 부스별 스캔 여부 저장
@@ -112,6 +26,8 @@ const BoothStamp = () => {
 
   const handleScan = (result: QrScanner.ScanResult) => {
     if (result) {
+      console.log(result)
+
       scannerRef.current?.stop()
 
       const boothId = result.data
@@ -217,15 +133,15 @@ const BoothStamp = () => {
               )}
             </div>
           ))}
-
-          {/* 임시 QR 생성 */}
-          {BoothData.map((booth) => (
-            <div key={booth.id}>
-              <div>{booth.id} 번째 QR</div>
-              <QRCodeSVG value={String(booth.id)} size={64} />
-            </div>
-          ))}
         </div>
+
+        {/* 임시 QR 생성 */}
+        {/* {BoothData.map((booth) => (
+          <div key={booth.id} className="flex flex-col items-center gap-3 mb-4">
+            <div>{booth.id} 번째 QR</div>
+            <QRCodeSVG value={String(booth.id)} size={128} />
+          </div>
+        ))} */}
 
         {/* QR 스캔 */}
         {isScanning && (
