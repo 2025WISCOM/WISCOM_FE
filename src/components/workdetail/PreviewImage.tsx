@@ -77,7 +77,7 @@ export default function PreviewImage({
             'absolute top-1/2 -translate-y-1/2 left-[-25px]',
             'flex items-center justify-center',
             'transition disabled:opacity-40 disabled:cursor-not-allowed',
-            'text-black',
+            'text-black cursor-pointer',
             'z-10',
           ].join(' ')}
         >
@@ -103,7 +103,7 @@ export default function PreviewImage({
             'absolute top-1/2 -translate-y-1/2 right-[-25px]',
             'flex items-center justify-center',
             'transition disabled:opacity-40 disabled:cursor-not-allowed',
-            'text-black',
+            'text-black cursor-pointer',
             'z-10',
           ].join(' ')}
         >
