@@ -18,7 +18,7 @@ const ExhibitionInfo = () => {
         <br />
         서울창업허브 창동 B1F
         <br />
-        25.12.12. - 25.12.15.
+        25.10.30. - 25.10.31.
       </p>
       <hr className="border-t border-[#E1D9D1]" />
     </section>
