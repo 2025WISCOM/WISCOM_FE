@@ -31,8 +31,8 @@ const SplashPage = () => {
   useEffect(() => {
     if (!reveal) return
     const t3 = setTimeout(() => {
-      // from=splash 쿼리로 메인에 진입했음을 표시
-      navigate('/main?from=splash', { replace: true })
+      sessionStorage.setItem('fromSplash', '1')
+      navigate('/main', { replace: true, state: { fromSplash: true } })
     }, 2000)
     return () => clearTimeout(t3)
   }, [reveal, navigate])
