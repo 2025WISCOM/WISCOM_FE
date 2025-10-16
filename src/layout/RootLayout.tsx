@@ -11,11 +11,16 @@ const RootLayout = () => {
 
   return (
     <div
-      className="min-h-screen w-full flex items-center justify-center font-[Pretendard] bg-cover bg-center"
+      className="relative min-h-screen w-full flex items-center justify-center font-[Pretendard] bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImg})` }}
     >
       <div
-        className={`w-full max-w-[393px] h-[min(800px,100vh)] flex flex-col relative ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
+        className="absolute inset-0 bg-black/40 pointer-events-none"
+        aria-hidden
+      />
+
+      <div
+        className={`relative z-10 w-full max-w-[393px] h-[min(800px,100vh)] flex flex-col ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
         id="app-container"
       >
         {/* 헤더 */}
@@ -30,7 +35,7 @@ const RootLayout = () => {
           </div>
         )}
 
-        {/* Outlet이 차지한 높이 밑에 Footer가 바로 옴 */}
+        {/* 본문 + 푸터 */}
         <main className="flex-1 min-h-0 overflow-y-auto">
           <Outlet />
           {!hideFooter && <Footer />}
