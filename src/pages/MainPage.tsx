@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Arch from '../assets/arch.png'
 import Home from '../assets/home.png'
 
 const MainPage = () => {
+  const navigate = useNavigate()
+  const [params] = useSearchParams()
+  const fromSplash = params.get('from') === 'splash'
+
   const [arch, setArch] = useState(false)
   const [home, setHome] = useState(false)
 
@@ -14,6 +19,14 @@ const MainPage = () => {
       clearTimeout(t2)
     }
   }, [])
+
+  useEffect(() => {
+    if (!fromSplash) return
+    const to = setTimeout(() => {
+      navigate('/about/introduction', { replace: true })
+    }, 4500) // 메인 노출 시간
+    return () => clearTimeout(to)
+  }, [fromSplash, navigate])
 
   return (
     <div className="relative w-full h-full overflow-hidden">

@@ -24,7 +24,7 @@ const CommitteeInfo = () => {
         </li>
         <li className="flex">
           <span className="w-20">기획</span>
-          <span>김미주 김희원 박효진 이채은 장은선 황민지</span>
+          <span>김미주 김희원 남시윤 박효진 이채은 장은선 황민지</span>
         </li>
         <li className="flex">
           <span className="w-20">프론트엔드</span>

@@ -27,11 +27,12 @@ const SplashPage = () => {
     return () => clearTimeout(t2)
   }, [animated])
 
-  // 메인 페이지 이동
+  // 메인 페이지 이동 (스플래시 → 메인)
   useEffect(() => {
     if (!reveal) return
     const t3 = setTimeout(() => {
-      navigate('/main')
+      // from=splash 쿼리로 메인에 진입했음을 표시
+      navigate('/main?from=splash', { replace: true })
     }, 2000)
     return () => clearTimeout(t3)
   }, [reveal, navigate])
@@ -114,7 +115,7 @@ const SplashPage = () => {
             className="block w-full -mt-px transition-transform duration-500 ease-out"
             style={{
               transform: `rotate(${reveal ? '-17.5deg' : '0deg'})`,
-              transformOrigin: 'right top', // 회전축
+              transformOrigin: 'right top',
               transitionDelay: reveal ? '700ms' : '0ms',
             }}
           />
