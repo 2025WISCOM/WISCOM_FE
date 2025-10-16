@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "studio": "Studio 1",
+    "teams": [
+      {
+        "id": 1,
+        "projectName": "NOVA",
+        "shortDescription": "시청자 보호를 위한 광과민성 장면 자동 탐지 및 필터링 AI 시스템",
+        "members": ["김진선", "김소연", "김유정", "박정민"]
+      },
+      {
+        "id": 2,
+        "projectName": "Communication Bridge",
+        "shortDescription": "청각장애인과 비장애인 간의 의사소통",
+        "members": ["김지우", "김시현", "김해나", "이정민"]
+      },
+      {
+        "id": 3,
+        "projectName": "PAMO",
+        "shortDescription": "모션과 AI가 만나 새로운 음악 창작 경험을 선사하는 인터랙션 음악 생성 플랫폼",
+        "members": ["소원", "양서연", "임지수", "조소윤", "홍다인"]
+      },
+      {
+        "id": 4,
+        "projectName": "패턴캐쳐",
+        "shortDescription": "실시간 차트 패턴 감지와 AI 주가 예측을 통한 맞춤형 투자 솔루션",
+        "members": ["한지수", "이가현", "이채원", "조수민"]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "studio": "Studio 2",
+    "teams": [
+      {
+        "id": 1,
+        "projectName": "라보야 놀자",
+        "shortDescription": "아이의 감정·행동을 분석하고 부모에게 솔루션을 제공하는 AI 기반 육아 도우미",
+        "members": ["김여름", "박지수", "원종은", "주예지"]
+      },
+      {
+        "id": 2,
+        "projectName": "Grossue",
+        "shortDescription": "사용자 맞춤형 뉴스로 문해력과 시사 이해력을 키우는 AI 학습 서비스",
+        "members": ["노승아", "김희윤", "고예진", "정하은"]
+      },
+      {
+        "id": 3,
+        "projectName": "Sync2Sing",
+        "shortDescription": "AI 기반 셀프 보컬 트레이닝 앱 서비스",
+        "members": ["장은선", "권나래", "김민지", "장현지"]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "studio": "Studio 3",
+    "teams": [
+      {
+        "id": 1,
+        "projectName": "DeepTruth",
+        "shortDescription": "클릭 한 번으로 영상의 진실을 찾고 콘텐츠를 지키는 통합 보안 솔루션",
+        "members": ["서지혜", "강수정", "김보민", "여강휘"]
+      },
+      {
+        "id": 2,
+        "projectName": "MAPI",
+        "shortDescription": "멀티모달 AI 기반 인터랙티브 수학 문제 풀이 서비스",
+        "members": ["박지예", "손재윤", "윤수정", "최유리", "한수정"]
+      },
+      {
+        "id": 3,
+        "projectName": "Wearther(웨어더)",
+        "shortDescription": "실시간 날씨와 내 옷장을 연결해 AI가 최적의 코디를 추천하는 스마트 패션 서비스",
+        "members": ["한규빈", "김주희", "윤서영", "이고은", "염윤서"]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "studio": "Studio 4",
+    "teams": [
+      {
+        "id": 2,
+        "projectName": "묘우직(Meowgic)",
+        "shortDescription": "미디어파이프로 수어를 인식해 차별에 맞서는 고양이 '미오' RPG",
+        "members": ["남서하", "나예원", "이재희", "임지원", "전하경"]
+      },
+      {
+        "id": 1,
+        "projectName": "Studify(스터디파이)",
+        "shortDescription": "공부 자세와 필기 여부를 감지해 공부 시간을 자동으로 기록하는 학습 도우미",
+        "members": ["유민경", "박유정", "양규리", "오지연", "이하늘"]
+      },
+      {
+        "id": 3,
+        "projectName": "두피어나",
+        "shortDescription": "한 번의 터치로 두피를 진단하다",
+        "members": ["김희원", "남시윤", "박효진", "장다연"]
+      },
+      {
+        "id": 4,
+        "projectName": "클로티디(Clotidy)",
+        "shortDescription": "AI 기반 옷장 관리 앱",
+        "members": ["박성은", "배윤서", "오카베아유무", "조예린"]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "studio": "Studio 5",
+    "teams": [
+      {
+        "id": 1,
+        "projectName": "Eyedia",
+        "shortDescription": "시선이 머문 곳에서 대화가 시작되는 실시간 도슨트 서비스",
+        "members": ["윤소은", "강채원", "김예빈", "유채민", "이윤서"]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "studio": "Studio 6",
+    "teams": [
+      {
+        "id": 1,
+        "projectName": "온음",
+        "shortDescription": "실시간 음성 분석으로 폭언을 감지하고 대응하는 AI 기반 전화 상담원 보호 서비스",
+        "members": ["이송미", "오세은", "전효민", "조예영", "최현지"]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "studio": "Studio 10",
+    "teams": [
+      {
+        "id": 1,
+        "projectName": "기억의 차원",
+        "shortDescription": "세 장의 추억이 들려주는 1년의 감성 사운드",
+        "members": ["류지예", "김가빈", "김채현", "박유나"]
+      }
+    ]
+  }
+]
