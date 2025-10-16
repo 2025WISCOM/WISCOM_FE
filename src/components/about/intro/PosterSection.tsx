@@ -1,4 +1,4 @@
-import poster from '../../../assets/poster.png'
+import poster from '../../../assets/mainposter.png'
 
 const PosterSection = () => {
   return (
