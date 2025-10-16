@@ -11,6 +11,7 @@ import {
   type WorkDetail as WorkDetailType,
 } from '../apis/works'
 import WorkHeader from '../components/workdetail/WorkHeader'
+import ImageLightbox from '../components/workdetail/ImageLightbox'
 
 function slugToCategoryUI(slug?: string): CategoryUI {
   if (!slug) return 'ALL'
@@ -34,12 +35,15 @@ export default function WorksDetailPage() {
   // 이미지 슬라이드 인덱스
   const [imgIdx, setImgIdx] = useState(0)
 
-  // 작품이 바뀔 때 이미지 인덱스 리셋
+  // ✅ 라이트박스 훅은 조기 반환문보다 위에서 선언
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const openLightbox = useCallback(() => setLightboxOpen(true), [])
+  const closeLightbox = useCallback(() => setLightboxOpen(false), [])
+
   useEffect(() => {
     setImgIdx(0)
   }, [category, workId])
 
-  // 상세 데이터 로드
   useEffect(() => {
     if (!workId || Number.isNaN(workId)) {
       setError('잘못된 작품 ID입니다.')
@@ -61,7 +65,6 @@ export default function WorksDetailPage() {
     return () => ac.abort()
   }, [category, workId])
 
-  // Prev/Next 작품 이동
   const goPrev = useCallback(() => {
     if (!data?.prev) return
     navigate(`/works/${params.category}/${data.prev}`)
@@ -90,13 +93,12 @@ export default function WorksDetailPage() {
   }
   if (!data) return null
 
-  // 이미지 배열 처리
+  // 이미지 처리
   const images = (data.imageUrls ?? []).map((i) => i.url)
   const hasImages = images.length > 0
   const canSlide = images.length > 1
   const currentImage = hasImages ? images[imgIdx] : undefined
 
-  // 이미지 이동 핸들러
   const imgPrev = () => setImgIdx((i) => Math.max(0, i - 1))
   const imgNext = () => setImgIdx((i) => Math.min(images.length - 1, i + 1))
 
@@ -115,6 +117,7 @@ export default function WorksDetailPage() {
                 alt={data.projectName}
                 ratio="16/9"
                 rounded="rounded-2xl"
+                onOpen={openLightbox}
                 {...(canSlide && {
                   onPrev: imgPrev,
                   onNext: imgNext,
@@ -154,6 +157,16 @@ export default function WorksDetailPage() {
           />
         }
       />
+
+      {lightboxOpen && hasImages && (
+        <ImageLightbox
+          images={images}
+          index={imgIdx}
+          onClose={closeLightbox}
+          onPrev={() => setImgIdx((i) => Math.max(0, i - 1))}
+          onNext={() => setImgIdx((i) => Math.min(images.length - 1, i + 1))}
+        />
+      )}
     </div>
   )
 }

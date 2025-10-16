@@ -1,12 +1,32 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import Arch from '../assets/arch.png'
 import Home from '../assets/home.png'
 
+type SplashState = { fromSplash?: boolean }
+
+function isSplashState(s: unknown): s is SplashState {
+  if (typeof s !== 'object' || s === null) return false
+  const maybe = (s as Record<string, unknown>).fromSplash
+  return maybe === undefined || typeof maybe === 'boolean'
+}
+
 const MainPage = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const [params] = useSearchParams()
-  const fromSplash = params.get('from') === 'splash'
+
+  // 1) location.state (any 제거)
+  const fromState =
+    isSplashState(location.state) && location.state.fromSplash === true
+
+  // 2) 쿼리
+  const fromQuery = params.get('from') === 'splash'
+
+  // 3) 세션
+  const fromSession = sessionStorage.getItem('fromSplash') === '1'
+
+  const fromSplash = fromState || fromQuery || fromSession
 
   const [arch, setArch] = useState(false)
   const [home, setHome] = useState(false)
@@ -23,14 +43,14 @@ const MainPage = () => {
   useEffect(() => {
     if (!fromSplash) return
     const to = setTimeout(() => {
+      sessionStorage.removeItem('fromSplash')
       navigate('/about/introduction', { replace: true })
-    }, 4500) // 메인 노출 시간
+    }, 1500)
     return () => clearTimeout(to)
   }, [fromSplash, navigate])
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* 배경 레이어 */}
       <div className="absolute inset-0 pointer-events-none">
         <img
           src={Home}
