@@ -102,7 +102,7 @@ function Header() {
           onClick={toggleMenu}
         >
           <div
-            className={`relative w-[24px] h-[18px] flex flex-col items-center transition-all duration-300 ${
+            className={`relative w-[24px] h-[18px] flex flex-col items-center transition-all duration-300  ${
               isVisible ? 'justify-center' : 'justify-between'
             } z-[60]`}
           >
@@ -111,21 +111,21 @@ function Header() {
                 isVisible ? 'absolute' : 'static'
               } w-full h-[2px] transition-all duration-300 transform origin-center ${
                 isVisible ? 'rotate-45' : ''
-              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#8F7860]'}`}
+              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#42372c]'}`}
             />
             <span
               className={`${
                 isVisible ? 'absolute' : 'static'
               } w-full h-[2px] transition-all duration-300 transform origin-center ${
                 isVisible ? 'opacity-0' : ''
-              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#8F7860]'}`}
+              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#42372c]'}`}
             />
             <span
               className={`${
                 isVisible ? 'absolute' : 'static'
               } w-full h-[2px] transition-all duration-300 transform origin-center ${
                 isVisible ? '-rotate-45' : ''
-              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#8F7860]'}`}
+              } ${isVisible ? 'bg-white' : isMain ? 'bg-[#000000]' : 'bg-[#42372c]'}`}
             />
           </div>
         </div>

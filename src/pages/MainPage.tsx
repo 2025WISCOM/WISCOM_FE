@@ -24,7 +24,7 @@ const MainPage = () => {
     if (!fromSplash) return
     const to = setTimeout(() => {
       navigate('/about/introduction', { replace: true })
-    }, 5000) // 메인 노출 시간
+    }, 4500) // 메인 노출 시간
     return () => clearTimeout(to)
   }, [fromSplash, navigate])
 
