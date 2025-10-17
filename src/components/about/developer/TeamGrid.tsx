@@ -1,38 +1,32 @@
+import { useEffect, useState } from 'react'
 import TeamCard from './TeamCard'
-import stamp from '../../../assets/teamstamp.png'
+import { fetchWorkList } from '../../../apis/about/team'
+import type { WorkItem } from '../../../apis/about/team'
 
 const TeamGrid = () => {
-  const teams = [
-    {
-      image: stamp,
-      teamName: '팀명팀명팀명팀명',
-      members: ['김덕우', '김덕우', '김덕우', '김덕우', '김덕우', '김덕우'],
-    },
-    {
-      image: stamp,
-      teamName: '팀명팀명팀명팀명',
-      members: ['김덕우', '김덕우', '김덕우', '김덕우', '김덕우', '김덕우'],
-    },
-    {
-      image: stamp,
-      teamName: '팀명팀명팀명팀명',
-      members: ['김덕우', '김덕우', '김덕우', '김덕우', '김덕우', '김덕우'],
-    },
-    {
-      image: stamp,
-      teamName: '팀명팀명팀명팀명',
-      members: ['김덕우', '김덕우', '김덕우', '김덕우', '김덕우', '김덕우'],
-    },
-  ]
+  const [teams, setTeams] = useState<WorkItem[]>([])
+
+  useEffect(() => {
+    const loadTeams = async () => {
+      try {
+        const data = await fetchWorkList()
+        setTeams(data)
+      } catch (error) {
+        console.error('팀 데이터를 불러오는 데 실패했습니다:', error)
+      }
+    }
+
+    loadTeams()
+  }, [])
 
   return (
     <div className="grid grid-cols-2 gap-8 mt-8 place-items-center mb-8">
-      {teams.map((team, idx) => (
+      {teams.map((team) => (
         <TeamCard
-          key={idx}
-          image={team.image}
+          key={team.id}
+          image={team.imageUrl}
           teamName={team.teamName}
-          members={team.members}
+          members={team.developers.map((dev) => dev.name)}
         />
       ))}
     </div>
