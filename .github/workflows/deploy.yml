@@ -1,0 +1,72 @@
+name: AWS 배포 자동화
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v3
+
+      - name: Node 세팅
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.11.0'
+          cache: 'yarn'
+
+      - name: 의존성 설치
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: 프로젝트 빌드
+        run: |
+          VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} yarn build
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+
+      - name: AWS CLI 설정
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: S3로 파일 배포
+        run: |
+          aws s3 sync ./dist s3://2025-wiscom.site --delete
+
+      # - name: CloudFront 캐시 무효화
+      #   run: |
+      #     aws cloudfront create-invalidation --distribution-id E34O71LMI2YU1H --paths "/*"
+
+  check_merge:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v3
+
+      - name: Node 세팅
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.11.0'
+
+      - name: 의존성 설치
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: 머지 차단을 위한 실패 시 처리
+        if: failure()
+        run: |
+          echo "빌드 또는 테스트가 실패하여 머지가 차단됩니다."
+          exit 1
