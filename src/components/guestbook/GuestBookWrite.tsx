@@ -37,8 +37,8 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-[360px] h-[360px] flex justify-center items-center">
-        <div className="absolute w-[280px] h-[270px] bg-[#fff]" />
+      <div className="relative w-full max-w-[360px] aspect-square flex justify-center items-center">
+        <div className="absolute w-[78%] h-[75%] bg-[#fff]" />
 
         <img
           src={MainFrame}
@@ -46,7 +46,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
           className="absolute w-full h-full object-cover -mt-[12px] -mb-[8px]"
         />
 
-        <div className="relative flex flex-col">
+        <div className="relative flex flex-col w-[82%] max-w-[280px] p-[18px]">
           {/* To */}
           <div className="flex gap-[4px] items-center">
             <p className="text-[20px]">To.</p>
@@ -55,7 +55,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
               placeholder="받는 사람"
               value={toName}
               onChange={(e) => setToName(e.target.value)}
-              className="text-[15px] placeholder:text-[#999] outline-none leading-[20px] "
+              className="text-[15px] placeholder:text-[#999] outline-none leading-[20px] flex-1 min-w-0"
             />
           </div>
 
@@ -65,11 +65,11 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             maxLength={136}
-            className="w-[240px] h-[160px] mt-[8px] mb-[16px] text-[15px] placeholder:text-[#999] outline-none resize-none"
+            className="w-full h-[48vw] max-h-[160px] min-h-[120px] mt-[8px] mb-[16px] text-[15px] placeholder:text-[#999] outline-none resize-none"
           />
 
           {/* From */}
-          <div className="flex items-center w-[240px] box-border">
+          <div className="flex items-center w-full box-border">
             <div className="flex items-center gap-[4px] flex-1 min-w-0">
               <p className="text-[20px] whitespace-nowrap">From.</p>
               <input
@@ -90,7 +90,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
 
       <button
         onClick={handleSubmit}
-        className={`w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A]' : 'bg-[#DDD]'}`}
+        className={`w-full max-w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A]' : 'bg-[#DDD]'}`}
       >
         Send
       </button>
