@@ -23,7 +23,9 @@ export default function ImageLightbox({
   const [dragX, setDragX] = useState(0)
   const [anim, setAnim] = useState(true)
 
-  // ESC/방향키 + 배경 스크롤 잠금
+  const lastDragTimeRef = useRef(0)
+  const isGhostClick = () => Date.now() - lastDragTimeRef.current < 250
+
   useEffect(() => {
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -67,6 +69,7 @@ export default function ImageLightbox({
     setDragging(false)
     setAnim(true)
     setDragX(0)
+    lastDragTimeRef.current = Date.now()
     if (dx > threshold) onPrev()
     else if (dx < -threshold) onNext()
   }
@@ -77,17 +80,14 @@ export default function ImageLightbox({
     return w ? (dragX / w) * (100 / total) : 0
   })()
 
-  // const stop = useCallback((e: React.MouseEvent) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  // }, [])
-
   return (
     <div
       className="fixed inset-0 z-[1000] bg-black/85 backdrop-blur-[1px] flex items-center justify-center"
       role="dialog"
       aria-modal="true"
-      onClick={onClose}
+      onClick={() => {
+        if (!dragging && !isGhostClick()) onClose()
+      }}
     >
       {/* 닫기 */}
       <button
@@ -98,9 +98,9 @@ export default function ImageLightbox({
           e.stopPropagation()
           onClose()
         }}
-        className="absolute top-3 right-3 text-white/90 hover:text-white"
+        className="fixed top-4 right-4 z-[1102] pointer-events-auto rounded-full bg-black/55 hover:bg-black/75 text-white p-2"
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
             d="M6 6l12 12M18 6L6 18"
             stroke="currentColor"
@@ -113,7 +113,8 @@ export default function ImageLightbox({
       {/* 스와이프 컨테이너 */}
       <div
         ref={containerRef}
-        className="relative w-full h-full flex items-center justify-center px-3 select-none touch-none"
+        className="relative z-[1100] w-full h-full flex items-center justify-center px-3 select-none touch-none"
+        onClick={(e) => e.stopPropagation()}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={finishDrag}
@@ -123,7 +124,7 @@ export default function ImageLightbox({
         {/* 트랙 */}
         <div className="h-full w-full overflow-hidden">
           <div
-            className="h-full flex items-center"
+            className="h-full flex items-center z-0"
             style={{
               width: `${total * 100}%`,
               transform: `translateX(calc(${-(index * (100 / total))}% + ${dragPercent}%))`,
@@ -151,7 +152,14 @@ export default function ImageLightbox({
         </div>
 
         {/* 하단 인덱스 */}
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 text-white/90 text-sm">
+        <div
+          className="absolute left-1/2 -translate-x-1/2 text-white text-sm md:text-base pointer-events-none z-[1101]
+               rounded px-2 py-1 bg-black/50 backdrop-blur-[2px]"
+          style={{
+            bottom: 'calc(env(safe-area-inset-bottom, 0px) + 16px)',
+          }}
+          aria-live="polite"
+        >
           {index + 1}/{total}
         </div>
       </div>
