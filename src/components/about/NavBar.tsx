@@ -9,8 +9,8 @@ const tabs = [
 
 const NavBar = () => {
   return (
-    <nav className="static flex justify-center border-b border-[#B19D87] text-[#42372C] px-1">
-      <ul className="flex space-x-6 text-sm">
+    <nav className="static flex justify-center border-b border-[#B19D87] text-[#42372C] px-3">
+      <ul className="flex space-x-3.5 text-sm">
         {tabs.map((tab) => (
           <li key={tab.path} className="pb-[10px]">
             <NavLink
