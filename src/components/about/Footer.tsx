@@ -1,5 +1,5 @@
 import { FaInstagram, FaHome } from 'react-icons/fa'
-import logo from '../../assets/duksunglogo.svg'
+import logo from '../../assets/duksung.png'
 
 const Footer = () => {
   return (
@@ -32,7 +32,7 @@ const Footer = () => {
         서울특별시 도봉구 삼양로 144길 33 덕성여자대학교 컴퓨터공학전공
       </div>
       <div className="flex items-center gap-2 pb-2">
-        <img src={logo} alt="덕성여대 로고" className="w-[128px] h-[28px]" />
+        <img src={logo} alt="덕성여대 로고" className="w-[128px] h-[32px]" />
       </div>
       <span>ⓒ Computer Engineering 2025. All rights reserved.</span>
     </footer>

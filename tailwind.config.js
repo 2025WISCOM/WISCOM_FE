@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        pretendard: ['Pretendard', 'sans-serif'],
         playfairSC: ['"Playfair Display SC"', 'serif'],
         butler: ['Butler', 'serif'],
       },
