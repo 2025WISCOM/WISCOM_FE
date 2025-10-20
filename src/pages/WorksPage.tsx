@@ -11,13 +11,14 @@ export default function WorksPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [selected, setSelected] = useState<WorkItem | null>(null)
-  const navigate = useNavigate()
-
-  // 가운데 카드 인덱스
   const [centerIdx, setCenterIdx] = useState(0)
   const railRef = useRef<HTMLDivElement | null>(null)
+  const navigate = useNavigate()
 
-  // 데이터 로드
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [currentX, setCurrentX] = useState(0)
+
   useEffect(() => {
     const ac = new AbortController()
     setLoading(true)
@@ -41,7 +42,6 @@ export default function WorksPage() {
     return () => ac.abort()
   }, [active])
 
-  // 가운데로 스크롤
   const scrollToCenter = useCallback((idx: number) => {
     const rail = railRef.current
     if (!rail) return
@@ -53,7 +53,6 @@ export default function WorksPage() {
     })
   }, [])
 
-  // 목록이 바뀌면 0번으로 맞추고 스크롤
   useEffect(() => {
     if (items.length > 0) {
       setCenterIdx(0)
@@ -75,17 +74,148 @@ export default function WorksPage() {
     return () => clearInterval(id)
   }, [items.length, scrollToCenter])
 
+  useEffect(() => {
+    const rail = railRef.current
+    if (!rail) return
+
+    if (items.length <= 1) return
+
+    const onTouchStart = (e: TouchEvent) => {
+      setIsDragging(true)
+      setStartX(e.touches[0].clientX)
+    }
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return
+      setCurrentX(e.touches[0].clientX)
+    }
+
+    const onTouchEnd = () => {
+      if (!isDragging) return
+      const delta = currentX - startX
+
+      // 60px 이상 드래그 시 전환
+      if (delta > 60 && centerIdx > 0) {
+        const prev = centerIdx - 1
+        setCenterIdx(prev)
+        setSelected(items[prev])
+        scrollToCenter(prev)
+      } else if (delta < -60 && centerIdx < items.length - 1) {
+        const next = centerIdx + 1
+        setCenterIdx(next)
+        setSelected(items[next])
+        scrollToCenter(next)
+      }
+
+      setIsDragging(false)
+      setStartX(0)
+      setCurrentX(0)
+    }
+
+    rail.addEventListener('touchstart', onTouchStart)
+    rail.addEventListener('touchmove', onTouchMove)
+    rail.addEventListener('touchend', onTouchEnd)
+
+    // 데스크탑 마우스도 지원
+    const onMouseDown = (e: MouseEvent) => {
+      setIsDragging(true)
+      setStartX(e.clientX)
+    }
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return
+      setCurrentX(e.clientX)
+    }
+    const onMouseUp = () => {
+      if (!isDragging) return
+      const delta = currentX - startX
+
+      if (delta > 60 && centerIdx > 0) {
+        const prev = centerIdx - 1
+        setCenterIdx(prev)
+        setSelected(items[prev])
+        scrollToCenter(prev)
+      } else if (delta < -60 && centerIdx < items.length - 1) {
+        const next = centerIdx + 1
+        setCenterIdx(next)
+        setSelected(items[next])
+        scrollToCenter(next)
+      }
+
+      setIsDragging(false)
+      setStartX(0)
+      setCurrentX(0)
+    }
+
+    rail.addEventListener('mousedown', onMouseDown)
+    rail.addEventListener('mousemove', onMouseMove)
+    rail.addEventListener('mouseup', onMouseUp)
+    rail.addEventListener('mouseleave', onMouseUp)
+
+    return () => {
+      rail.removeEventListener('touchstart', onTouchStart)
+      rail.removeEventListener('touchmove', onTouchMove)
+      rail.removeEventListener('touchend', onTouchEnd)
+      rail.removeEventListener('mousedown', onMouseDown)
+      rail.removeEventListener('mousemove', onMouseMove)
+      rail.removeEventListener('mouseup', onMouseUp)
+      rail.removeEventListener('mouseleave', onMouseUp)
+    }
+  }, [isDragging, startX, currentX, centerIdx, items, scrollToCenter])
+
+  useEffect(() => {
+    const rail = railRef.current
+    if (!rail) return
+
+    const onScroll = () => {
+      const children = Array.from(
+        rail.querySelectorAll('[data-idx]'),
+      ) as HTMLElement[]
+      if (children.length === 0) return
+
+      // const railCenter = rail.scrollLeft + rail.clientWidth / 2
+
+      let closestIdx = 0
+      let minDiff = Infinity
+
+      children.forEach((el) => {
+        const rect = el.getBoundingClientRect()
+        const diff = Math.abs(
+          rect.left +
+            rect.width / 2 -
+            (rail.getBoundingClientRect().left + rail.clientWidth / 2),
+        )
+        if (diff < minDiff) {
+          minDiff = diff
+          closestIdx = parseInt(el.dataset.idx ?? '0')
+        }
+      })
+
+      if (closestIdx !== centerIdx) {
+        setCenterIdx(closestIdx)
+        setSelected(items[closestIdx])
+      }
+    }
+
+    // 스크롤이 멈췄을 때만 감지
+    let timeout: number | null = null
+    const handleScroll = () => {
+      if (timeout) clearTimeout(timeout)
+      timeout = window.setTimeout(onScroll, 10) // 0.1초 후 포커스 갱신
+    }
+
+    rail.addEventListener('scroll', handleScroll)
+    return () => rail.removeEventListener('scroll', handleScroll)
+  }, [items, centerIdx])
+
   return (
     <div className="w-full text-[#2c2620]">
       <div className="mx-auto max-w-[960px] pt-4 pb-5">
-        {/* 탭 */}
         <div className="sticky top-0 z-5 bg-[#F5F3F0]/95 backdrop-blur-[2px] border-b border-[#C8B7A6]">
           <div className="w-full flex items-center justify-center">
             <Tabs value={active} onChange={setActive} />
           </div>
         </div>
 
-        {/* 상태 */}
         {loading && (
           <div className="mt-8 text-center text-sm text-[#8d837a]">
             목록을 불러오는 중입니다...
@@ -98,11 +228,11 @@ export default function WorksPage() {
         {!loading && !error && (
           <div
             ref={railRef}
-            className="
-              overflow-x-auto scroll-smooth
-              snap-x snap-mandatory
-              [scrollbar-width:none]
-            "
+            className={`
+    ${items.length > 1 ? 'overflow-x-auto scroll-smooth' : 'overflow-hidden'}
+    snap-x snap-mandatory
+    [scrollbar-width:none]
+  `}
           >
             <div className="flex items-stretch">
               {items.length > 0 && (
@@ -124,7 +254,6 @@ export default function WorksPage() {
                       ${isCenter ? 'scale-100' : 'scale-90'}
                     `}
                   >
-                    {/* 카드 자체 사이즈는 동일하게 두고, wrapper scale로 크기 차 연출 */}
                     <FrameCard
                       image={w.imageUrl}
                       size="lg"
@@ -143,17 +272,10 @@ export default function WorksPage() {
                   className="snap-center shrink-0 basis-1/3 px-2 pointer-events-none"
                 />
               )}
-
-              {items.length === 0 && (
-                <div className="py-10 text-sm text-[#8d837a]">
-                  작품이 없습니다.
-                </div>
-              )}
             </div>
           </div>
         )}
 
-        {/* 상세 */}
         {selected && (
           <WorkExplan
             title={selected.projectName}

@@ -1,6 +1,6 @@
-export type CategoryUI = 'ALL' | 'WEB&APP' | 'GAME' | 'AI' | 'IOT'
+export type CategoryUI = 'ALL' | 'WEB&APP' | 'AI' | 'IOT' | 'GAME'
 
-const TABS: CategoryUI[] = ['ALL', 'WEB&APP', 'GAME', 'AI', 'IOT']
+const TABS: CategoryUI[] = ['ALL', 'WEB&APP', 'AI', 'IOT', 'GAME']
 
 interface Props {
   value: CategoryUI

@@ -29,7 +29,7 @@ const Footer = () => {
       <div className="mb-3 leading-5">
         Tel. 02-901-8341
         <br />
-        서울특별시 도봉구 삼양로 144길 33 덕성여자대학교 컴퓨터공학전공
+        서울특별시 도봉구 삼양로 144길 33
       </div>
       <div className="flex items-center gap-2 pb-2">
         <img src={logo} alt="덕성여대 로고" className="w-[128px] h-[32px]" />
