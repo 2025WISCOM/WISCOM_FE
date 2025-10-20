@@ -23,7 +23,7 @@
       },
       {
         "id": 4,
-        "projectName": "패턴캐쳐",
+        "projectName": "패턴캐처",
         "shortDescription": "실시간 차트 패턴 감지와 AI 주가 예측을 통한 맞춤형 투자 솔루션",
         "members": ["한지수", "이가현", "이채원", "조수민"]
       }
