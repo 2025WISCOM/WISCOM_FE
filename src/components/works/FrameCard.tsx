@@ -37,8 +37,8 @@ export default function FrameCard({
       type="button"
       onClick={onClick}
       className={`
-        snap-center shrink-0 outline-none transition-transform duration-300
-        ${focused ? 'scale-110' : 'scale-95'}   //포커스 여부에 따라 크기 조정
+        snap-center shrink-0 outline-none transition-transform duration-300 cursor-pointer mt-2
+        ${focused ? 'scale-105' : 'scale-95'}   //포커스 여부에 따라 크기 조정
       `}
     >
       <div className={`relative ${wh}`}>
