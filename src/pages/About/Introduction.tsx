@@ -9,8 +9,8 @@ const Introduction = () => {
     <div className="font-[Pretendard] min-h-screen flex flex-col">
       <NavBar />
       <PosterSection />
-      <ExhibitionInfo />
       <IntroductionText />
+      <ExhibitionInfo />
       <CommitteeInfo />
     </div>
   )

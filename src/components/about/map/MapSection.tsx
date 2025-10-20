@@ -1,7 +1,8 @@
 const MapSection = () => {
   return (
-    <div className="w-full max-w-[320px] px-7 items-center py-3">
+    <div className="w-full flex justify-center py-3">
       <div
+        className="px-1"
         style={{
           font: 'normal normal 400 12px/normal dotum, sans-serif',
           width: '320px',

@@ -20,7 +20,7 @@ const TeamGrid = () => {
   }, [])
 
   return (
-    <div className="grid grid-cols-2 gap-8 mt-8 place-items-center mb-8">
+    <div className="grid grid-cols-2 gap-8 mt-8 place-items-center mb-8 auto-rows-[250px]">
       {teams.map((team) => (
         <TeamCard
           key={team.id}
