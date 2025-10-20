@@ -15,7 +15,7 @@ const Navbar = ({ selectedMenu, setSelectedMenu }: NavbarProps) => {
         {tabs.map((tab) => (
           <li
             key={tab.label}
-            className={`pb-[10px] w-1/2 text-center cursor-pointer ${selectedMenu === tab.value ? 'text-[12px] font-medium leading-[16px] text-[#42372C] border-b border-b-[4px] border-[#8F7860]' : 'text-[15px] font-normal leading-[24px] text-[#B19D87]'}`}
+            className={`pb-[10px] w-1/2 text-center cursor-pointer text-sm ${selectedMenu === tab.value ? 'border-b-[5px] border-[#8F7860] font-medium text-[#42372C] border-b border-b-[4px] border-[#8F7860]' : 'text-[#B19D87]'}`}
             onClick={() => setSelectedMenu(tab.value)}
           >
             <div>{tab.label}</div>
