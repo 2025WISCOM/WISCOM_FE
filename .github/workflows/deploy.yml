@@ -43,9 +43,9 @@ jobs:
         run: |
           aws s3 sync ./dist s3://2025-wiscom.site --delete
 
-      # - name: CloudFront 캐시 무효화
-      #   run: |
-      #     aws cloudfront create-invalidation --distribution-id E34O71LMI2YU1H --paths "/*"
+      - name: CloudFront 캐시 무효화
+        run: |
+          aws cloudfront create-invalidation --distribution-id E1XYY07L789RNP --paths "/*"
 
   check_merge:
     runs-on: ubuntu-latest
