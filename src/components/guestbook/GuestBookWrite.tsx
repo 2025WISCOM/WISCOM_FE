@@ -55,6 +55,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
               placeholder="받는 사람"
               value={toName}
               onChange={(e) => setToName(e.target.value)}
+              maxLength={7}
               className="text-[15px] placeholder:text-[#999] outline-none leading-[20px] flex-1 min-w-0"
             />
           </div>
@@ -77,6 +78,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
                 placeholder="보내는 사람"
                 value={fromName}
                 onChange={(e) => setFromName(e.target.value)}
+                maxLength={7}
                 className="text-[15px] placeholder:text-[#999] outline-none flex-1 min-w-0 leading-[20px] "
               />
             </div>
