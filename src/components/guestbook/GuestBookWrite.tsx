@@ -90,7 +90,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
 
       <button
         onClick={handleSubmit}
-        className={`w-full max-w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A]' : 'bg-[#DDD]'}`}
+        className={`w-full max-w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A] cursor-pointer' : 'bg-[#DDD]'}`}
       >
         Send
       </button>

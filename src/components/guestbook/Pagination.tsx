@@ -40,7 +40,7 @@ const Pagination: React.FC<PaginationProps> = ({
         type="button"
         onClick={() => go(clampedCurrent - 1)}
         disabled={clampedCurrent === 1}
-        className="w-[40px] h-[24px] disabled:opacity-40 text-[15px]"
+        className="w-[40px] h-[24px] disabled:opacity-40 text-[15px] cursor-pointer"
         aria-label="이전 페이지"
       >
         &lt;
@@ -53,7 +53,7 @@ const Pagination: React.FC<PaginationProps> = ({
           onClick={() => go(p)}
           aria-current={p === clampedCurrent ? 'page' : undefined}
           className={[
-            'w-[40px] h-[24px] text-[15px]',
+            'w-[40px] h-[24px] text-[15px] cursor-pointer',
             p === clampedCurrent ? 'text-[#000]' : 'text-[#B19D87]',
           ].join(' ')}
         >
@@ -65,7 +65,7 @@ const Pagination: React.FC<PaginationProps> = ({
         type="button"
         onClick={() => go(clampedCurrent + 1)}
         disabled={clampedCurrent === total}
-        className="w-[40px] h-[24px] disabled:opacity-40 text-[15px]"
+        className="w-[40px] h-[24px] disabled:opacity-40 text-[15px] cursor-pointer"
         aria-label="다음 페이지"
       >
         &gt;
