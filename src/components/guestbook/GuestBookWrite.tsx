@@ -55,6 +55,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
               placeholder="받는 사람"
               value={toName}
               onChange={(e) => setToName(e.target.value)}
+              maxLength={7}
               className="text-[15px] placeholder:text-[#999] outline-none leading-[20px] flex-1 min-w-0"
             />
           </div>
@@ -65,7 +66,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             maxLength={136}
-            className="w-full h-[48vw] max-h-[160px] min-h-[120px] mt-[8px] mb-[16px] text-[15px] placeholder:text-[#999] outline-none resize-none"
+            className="w-full h-[48vw] max-h-[160px] min-h-[120px] mt-[8px] mb-[16px] text-[15px] placeholder:text-[#999] outline-none resize-none [&::-webkit-scrollbar]:hidden"
           />
 
           {/* From */}
@@ -77,6 +78,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
                 placeholder="보내는 사람"
                 value={fromName}
                 onChange={(e) => setFromName(e.target.value)}
+                maxLength={7}
                 className="text-[15px] placeholder:text-[#999] outline-none flex-1 min-w-0 leading-[20px] "
               />
             </div>
@@ -90,7 +92,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
 
       <button
         onClick={handleSubmit}
-        className={`w-full max-w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A]' : 'bg-[#DDD]'}`}
+        className={`w-full max-w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A] cursor-pointer' : 'bg-[#DDD]'}`}
       >
         Send
       </button>

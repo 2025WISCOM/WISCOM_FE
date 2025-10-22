@@ -25,9 +25,9 @@ const GuestBookDetail = (props: GuestBookItemProps) => {
         </div>
 
         {/* 메시지 */}
-        <p className="w-[240px] h-[168px] text-[15px] leading-[24px]">
+        <div className="w-[240px] h-[168px] text-[15px] leading-[24px] overflow-y-auto [&::-webkit-scrollbar]:hidden">
           {props.message}
-        </p>
+        </div>
 
         {/* From */}
         <div className="flex gap-[4px] items-center">
