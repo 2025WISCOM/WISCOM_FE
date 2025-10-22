@@ -66,7 +66,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             maxLength={136}
-            className="w-full h-[48vw] max-h-[160px] min-h-[120px] mt-[8px] mb-[16px] text-[15px] placeholder:text-[#999] outline-none resize-none"
+            className="w-full h-[48vw] max-h-[160px] min-h-[120px] mt-[8px] mb-[16px] text-[15px] placeholder:text-[#999] outline-none resize-none [&::-webkit-scrollbar]:hidden"
           />
 
           {/* From */}
