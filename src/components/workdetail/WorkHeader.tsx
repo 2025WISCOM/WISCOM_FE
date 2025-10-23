@@ -4,22 +4,23 @@ import { FaGithub, FaInstagram } from 'react-icons/fa'
 interface WorkHeaderProps {
   instagramUrl?: string
   githubUrl?: string
+  onBack?: () => void
 }
 
 export default function WorkHeader({
   instagramUrl,
   githubUrl,
+  onBack,
 }: WorkHeaderProps) {
   const navigate = useNavigate()
 
   return (
     <div className="w-full max-w-[960px] mx-auto px-4 pt-2 pb-4">
       <div className="flex items-center justify-between">
-        {/* Back */}
         <button
           type="button"
           aria-label="뒤로가기"
-          onClick={() => navigate(-1)}
+          onClick={() => (onBack ? onBack() : navigate(-1))}
           className="text-[#5A4A3C] hover:text-black transition cursor-pointer"
         >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">

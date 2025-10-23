@@ -35,10 +35,13 @@ export default function WorksDetailPage() {
   // 이미지 슬라이드 인덱스
   const [imgIdx, setImgIdx] = useState(0)
 
-  // ✅ 라이트박스 훅은 조기 반환문보다 위에서 선언
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const openLightbox = useCallback(() => setLightboxOpen(true), [])
   const closeLightbox = useCallback(() => setLightboxOpen(false), [])
+
+  const backToList = useCallback(() => {
+    navigate(`/works?tab=${encodeURIComponent(category)}`)
+  }, [navigate, category])
 
   useEffect(() => {
     setImgIdx(0)
@@ -106,8 +109,11 @@ export default function WorksDetailPage() {
 
   return (
     <div className="w-full pb-3">
-      <WorkHeader instagramUrl={data.instagramUrl} githubUrl={data.githubUrl} />
-
+      <WorkHeader
+        instagramUrl={data.instagramUrl}
+        githubUrl={data.githubUrl}
+        onBack={backToList}
+      />
       <WorkDetail
         preview={
           hasImages ? (
