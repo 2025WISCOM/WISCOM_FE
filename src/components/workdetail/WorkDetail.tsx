@@ -26,7 +26,9 @@ export default function WorkDetail({
       <header className="mb-3 text-center">
         <h1 className="text-[22px] font-bold text-[#6F5E4B]">{title}</h1>
         {subtitle && (
-          <p className="mt-1 text-[15px] text-[#6F5E4B]">{subtitle}</p>
+          <p className="px-4 mt-1 text-[15px] text-[#6F5E4B] whitespace-normal break-keep">
+            {subtitle}
+          </p>
         )}
       </header>
 
