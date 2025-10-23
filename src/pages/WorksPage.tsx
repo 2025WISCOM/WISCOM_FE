@@ -1,16 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Tabs, { type CategoryUI } from '../components/works/Tabs'
 import FrameCard from '../components/works/FrameCard'
 import WorkExplan from '../components/works/WorkExplan'
 import { fetchWorkList, type WorkItem } from '../apis/works'
-import { useNavigate } from 'react-router-dom'
+
+const VALID_TABS: CategoryUI[] = ['ALL', 'WEB&APP', 'AI', 'IOT', 'GAME']
+const isValidTab = (t: string | null): t is CategoryUI =>
+  !!t && VALID_TABS.includes(t as CategoryUI)
 
 export default function WorksPage() {
-  const [active, setActive] = useState<CategoryUI>('ALL')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const getInitialTab = () =>
+    isValidTab(searchParams.get('tab'))
+      ? (searchParams.get('tab') as CategoryUI)
+      : 'ALL'
+
+  const [active, setActive] = useState<CategoryUI>(getInitialTab)
   const [items, setItems] = useState<WorkItem[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [selected, setSelected] = useState<WorkItem | null>(null)
   const [centerIdx, setCenterIdx] = useState(0)
   const railRef = useRef<HTMLDivElement | null>(null)
   const navigate = useNavigate()
@@ -18,6 +27,29 @@ export default function WorksPage() {
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [currentX, setCurrentX] = useState(0)
+
+  // 주소창의 ?tab=이 바뀌면 active 동기화 (직접 URL 입력/새로고침 대비)
+  useEffect(() => {
+    const q = searchParams.get('tab')
+    const next = isValidTab(q) ? (q as CategoryUI) : 'ALL'
+    setActive(next)
+  }, [searchParams])
+
+  // 탭 변경 시 URL의 ?tab= 업데이트
+  const handleTabChange = useCallback(
+    (next: CategoryUI) => {
+      setActive(next)
+      setSearchParams((prev) => {
+        const sp = new URLSearchParams(prev)
+        sp.set('tab', next)
+        return sp
+      })
+    },
+    [setSearchParams],
+  )
+
+  // 파생 상태: 항상 centerIdx에서 계산
+  const selected = items[centerIdx] ?? null
 
   useEffect(() => {
     const ac = new AbortController()
@@ -27,14 +59,13 @@ export default function WorksPage() {
     fetchWorkList(active, ac.signal)
       .then((list) => {
         setItems(list)
-        setSelected(list[0] ?? null)
         setCenterIdx(0)
       })
       .catch((e) => {
         if (!(e instanceof DOMException && e.name === 'AbortError')) {
           setError((e as Error).message ?? '불러오기 실패')
           setItems([])
-          setSelected(null)
+          setCenterIdx(0)
         }
       })
       .finally(() => setLoading(false))
@@ -56,54 +87,48 @@ export default function WorksPage() {
   useEffect(() => {
     if (items.length > 0) {
       setCenterIdx(0)
-      setSelected(items[0])
       setTimeout(() => scrollToCenter(0), 0)
     }
   }, [items, scrollToCenter])
 
+  // 자동 전환
   useEffect(() => {
     if (items.length <= 1) return
     const id = setInterval(() => {
       setCenterIdx((prev) => {
         const next = (prev + 1) % items.length
         scrollToCenter(next)
-        setSelected(items[next])
         return next
       })
     }, 3500)
     return () => clearInterval(id)
   }, [items.length, scrollToCenter])
 
+  // 터치/마우스 드래그: 인덱스만 변경
   useEffect(() => {
     const rail = railRef.current
     if (!rail) return
-
     if (items.length <= 1) return
 
     const onTouchStart = (e: TouchEvent) => {
       setIsDragging(true)
       setStartX(e.touches[0].clientX)
     }
-
     const onTouchMove = (e: TouchEvent) => {
       if (!isDragging) return
       setCurrentX(e.touches[0].clientX)
     }
-
     const onTouchEnd = () => {
       if (!isDragging) return
       const delta = currentX - startX
 
-      // 60px 이상 드래그 시 전환
       if (delta > 60 && centerIdx > 0) {
         const prev = centerIdx - 1
         setCenterIdx(prev)
-        setSelected(items[prev])
         scrollToCenter(prev)
       } else if (delta < -60 && centerIdx < items.length - 1) {
         const next = centerIdx + 1
         setCenterIdx(next)
-        setSelected(items[next])
         scrollToCenter(next)
       }
 
@@ -112,11 +137,10 @@ export default function WorksPage() {
       setCurrentX(0)
     }
 
-    rail.addEventListener('touchstart', onTouchStart)
-    rail.addEventListener('touchmove', onTouchMove)
+    rail.addEventListener('touchstart', onTouchStart, { passive: true })
+    rail.addEventListener('touchmove', onTouchMove, { passive: true })
     rail.addEventListener('touchend', onTouchEnd)
 
-    // 데스크탑 마우스도 지원
     const onMouseDown = (e: MouseEvent) => {
       setIsDragging(true)
       setStartX(e.clientX)
@@ -132,12 +156,10 @@ export default function WorksPage() {
       if (delta > 60 && centerIdx > 0) {
         const prev = centerIdx - 1
         setCenterIdx(prev)
-        setSelected(items[prev])
         scrollToCenter(prev)
       } else if (delta < -60 && centerIdx < items.length - 1) {
         const next = centerIdx + 1
         setCenterIdx(next)
-        setSelected(items[next])
         scrollToCenter(next)
       }
 
@@ -162,45 +184,40 @@ export default function WorksPage() {
     }
   }, [isDragging, startX, currentX, centerIdx, items, scrollToCenter])
 
+  // 스크롤로 가운데 아이 탐지 → 인덱스만 변경
   useEffect(() => {
     const rail = railRef.current
     if (!rail) return
 
-    const onScroll = () => {
+    const onScrollStop = () => {
       const children = Array.from(
         rail.querySelectorAll('[data-idx]'),
       ) as HTMLElement[]
       if (children.length === 0) return
 
-      // const railCenter = rail.scrollLeft + rail.clientWidth / 2
-
       let closestIdx = 0
       let minDiff = Infinity
+      const railRect = rail.getBoundingClientRect()
+      const railCenterX = railRect.left + rail.clientWidth / 2
 
       children.forEach((el) => {
         const rect = el.getBoundingClientRect()
-        const diff = Math.abs(
-          rect.left +
-            rect.width / 2 -
-            (rail.getBoundingClientRect().left + rail.clientWidth / 2),
-        )
+        const diff = Math.abs(rect.left + rect.width / 2 - railCenterX)
         if (diff < minDiff) {
           minDiff = diff
-          closestIdx = parseInt(el.dataset.idx ?? '0')
+          closestIdx = parseInt(el.dataset.idx ?? '0', 10)
         }
       })
 
       if (closestIdx !== centerIdx) {
         setCenterIdx(closestIdx)
-        setSelected(items[closestIdx])
       }
     }
 
-    // 스크롤이 멈췄을 때만 감지
     let timeout: number | null = null
     const handleScroll = () => {
       if (timeout) clearTimeout(timeout)
-      timeout = window.setTimeout(onScroll, 10) // 0.1초 후 포커스 갱신
+      timeout = window.setTimeout(onScrollStop, 100)
     }
 
     rail.addEventListener('scroll', handleScroll)
@@ -212,7 +229,7 @@ export default function WorksPage() {
       <div className="mx-auto max-w-[960px] pt-4 pb-5">
         <div className="sticky top-0 z-5 bg-[#F5F3F0]/95 backdrop-blur-[2px] border-b border-[#C8B7A6]">
           <div className="w-full flex items-center justify-center">
-            <Tabs value={active} onChange={setActive} />
+            <Tabs value={active} onChange={handleTabChange} />
           </div>
         </div>
 
@@ -229,10 +246,9 @@ export default function WorksPage() {
           <div
             ref={railRef}
             className={`
-    ${items.length > 1 ? 'overflow-x-auto scroll-smooth' : 'overflow-hidden'}
-    snap-x snap-mandatory
-    [scrollbar-width:none]
-  `}
+              ${items.length > 1 ? 'overflow-x-auto scroll-smooth' : 'overflow-hidden'}
+              snap-x snap-mandatory [scrollbar-width:none]
+            `}
           >
             <div className="flex items-stretch">
               {items.length > 0 && (
