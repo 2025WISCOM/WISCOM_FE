@@ -155,12 +155,15 @@ export default function WorksDetailPage() {
         }
         body={<DetailSection>{longBody}</DetailSection>}
         nav={
-          <DetailNav
-            onPrev={goPrev}
-            onNext={goNext}
-            prevDisabled={!data.prev}
-            nextDisabled={!data.next}
-          />
+          // IOT, GAME이면 항상 숨김
+          category === 'IOT' || category === 'GAME' ? undefined : (
+            <DetailNav
+              onPrev={goPrev}
+              onNext={goNext}
+              prevDisabled={!data.prev}
+              nextDisabled={!data.next}
+            />
+          )
         }
       />
 

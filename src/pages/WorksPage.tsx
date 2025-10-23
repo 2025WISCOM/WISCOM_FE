@@ -100,7 +100,7 @@ export default function WorksPage() {
         scrollToCenter(next)
         return next
       })
-    }, 3500)
+    }, 3800)
     return () => clearInterval(id)
   }, [items.length, scrollToCenter])
 
