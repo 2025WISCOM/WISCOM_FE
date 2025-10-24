@@ -614,20 +614,20 @@ export default function WorksPage() {
                     key={w.id}
                     data-idx={i}
                     className={`
-                      snap-center shrink-0 basis-1/3 px-0.5
-                      transition-transform duration-300
-                      ${isCenter ? 'scale-100' : 'scale-90'}
-                    `}
+        snap-center shrink-0 basis-1/3 px-0.5
+        transition-transform duration-300
+        ${isCenter ? 'scale-100' : 'scale-90'}
+      `}
                   >
                     <FrameCard
                       image={w.imageUrl}
                       size="lg"
                       focused={isCenter}
+                      index={i} // ← 이 한 줄로 1,2,3 반복 완성
                       onClick={() =>
-                        navigate(
-                          `/works/${active.toLowerCase()}/${w.id}`,
-                          { state: { fromIdx: i } }, // 상세 진입 시 현재 인덱스 전달
-                        )
+                        navigate(`/works/${active.toLowerCase()}/${w.id}`, {
+                          state: { fromIdx: i },
+                        })
                       }
                     />
                   </div>
