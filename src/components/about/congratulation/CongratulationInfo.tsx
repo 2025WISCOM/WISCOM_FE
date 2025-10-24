@@ -1,5 +1,5 @@
 import frame from '../../../assets/frame.svg'
-import prof1 from '../../../assets/prof.jpg'
+import prof1 from '../../../assets/pro.png'
 
 const CongratulationInfo = () => {
   return (
