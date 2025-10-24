@@ -1,5 +1,7 @@
-import { FaInstagram, FaHome } from 'react-icons/fa'
+// import { FaInstagram, FaHome } from 'react-icons/fa'
 import logo from '../../assets/duksung.png'
+import Instagram from '../../assets/instagram.png'
+import Home from '../../assets/homelogo.png'
 
 const Footer = () => {
   return (
@@ -15,15 +17,15 @@ const Footer = () => {
           href="https://instagram.com/2025_wiscom"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 rounded-full bg-[#A0896F] flex items-center justify-center"
+          className="w-10 h-10 rounded-full bg-[#9D8469] flex items-center justify-center"
         >
-          <FaInstagram className="text-white text-lg" />
+          <img src={Instagram} alt="인스타그램" className="w-[20px] h-[20px]" />
         </a>
         <a
           href="/"
-          className="w-10 h-10 rounded-full bg-[#A0896F] flex items-center justify-center"
+          className="w-10 h-10 rounded-full bg-[#9D8469] flex items-center justify-center"
         >
-          <FaHome className="text-white text-lg" />
+          <img src={Home} alt="홈" className="w-[20px] h-[20px]" />
         </a>
       </div>
       <div className="mb-3 leading-5">
