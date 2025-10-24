@@ -134,7 +134,7 @@ export default function FrameCard({
 
         {/* 사진 */}
         <div
-          className="absolute flex items-center justify-center overflow-hidden rounded-sm"
+          className="absolute flex items-center justify-center overflow-hidden rounded-sm touch-none overscroll-none"
           style={{
             top: pad.top,
             left: pad.left,
@@ -145,7 +145,7 @@ export default function FrameCard({
           <img
             src={src}
             alt="work"
-            className="w-full object-cover"
+            className="w-full object-cover pointer-events-none select-none no-drag no-callout"
             loading="lazy"
           />
         </div>

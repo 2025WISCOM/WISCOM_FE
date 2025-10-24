@@ -5,6 +5,14 @@
   /* background-color: #f7f8f9; */
 }
 
+.no-drag {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+.no-callout {
+  -webkit-touch-callout: none;
+}
+
 @font-face {
   font-family: Pretendard;
   font-style: normal;
