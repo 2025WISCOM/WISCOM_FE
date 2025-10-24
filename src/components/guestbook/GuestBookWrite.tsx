@@ -49,7 +49,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
         <div className="relative flex flex-col w-[82%] max-w-[280px] p-[18px]">
           {/* To */}
           <div className="flex gap-[4px] items-center">
-            <p className="text-[20px]">To.</p>
+            <p className="text-[20px] font-['Butler'] ">To.</p>
             <input
               type="text"
               placeholder="받는 사람"
@@ -72,7 +72,9 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
           {/* From */}
           <div className="flex items-center w-full box-border">
             <div className="flex items-center gap-[4px] flex-1 min-w-0">
-              <p className="text-[20px] whitespace-nowrap">From.</p>
+              <p className="text-[20px] font-['Butler'] whitespace-nowrap">
+                From.
+              </p>
               <input
                 type="text"
                 placeholder="보내는 사람"
@@ -92,7 +94,7 @@ const GuestBookWrite = ({ onSubmitted }: Props) => {
 
       <button
         onClick={handleSubmit}
-        className={`w-full max-w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-bold ${isFilled ? 'bg-[#56493A] cursor-pointer' : 'bg-[#DDD]'}`}
+        className={`w-full max-w-[328px] h-[48px] rounded-[40px] text-[#FFF] text-center text-[20px] font-['Butler'] font-bold ${isFilled ? 'bg-[#56493A] cursor-pointer' : 'bg-[#DDD]'}`}
       >
         Send
       </button>
