@@ -24,7 +24,7 @@ const GuestBookPage = () => {
   const [showModal, setShowModal] = useState(false)
   const [modalContent, setModalContent] = useState('')
 
-  const { items, totalPages, reload } = useGuestbook({
+  const { items, totalPages } = useGuestbook({
     page: currentPage,
     size: PAGE_SIZE,
     keyword,
@@ -33,14 +33,12 @@ const GuestBookPage = () => {
   const handleSubmitted = (fromName: string) => {
     setKeyword('')
     setCurrentPage(1)
-    reload()
     setModalContent(`${fromName} 학생에게\n소중한 마음이 전달됐습니다.`)
     setShowModal(true)
   }
 
   const triggerSearch = () => {
     setCurrentPage(1)
-    reload()
   }
 
   const closeModal = useCallback(() => setSelected(null), [])
@@ -60,6 +58,10 @@ const GuestBookPage = () => {
       document.body.classList.remove('overflow-hidden')
     }
   }, [selected, closeModal])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [keyword])
 
   return (
     <div className="flex flex-col">
