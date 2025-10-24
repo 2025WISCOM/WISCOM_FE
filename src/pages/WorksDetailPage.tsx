@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import DetailSection from '../components/workdetail/DetailSection'
 import MetaList from '../components/workdetail/MetaList'
@@ -9,6 +16,8 @@ import type { CategoryUI } from '../components/works/Tabs'
 import {
   fetchWorkDetail,
   type WorkDetail as WorkDetailType,
+  fetchWorkList,
+  type WorkItem,
 } from '../apis/works'
 import WorkHeader from '../components/workdetail/WorkHeader'
 import ImageLightbox from '../components/workdetail/ImageLightbox'
@@ -32,21 +41,24 @@ export default function WorksDetailPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // 정렬용 목록
+  const [, setListLoading] = useState(false)
+  const [items, setItems] = useState<WorkItem[]>([])
+
   // 이미지 슬라이드 인덱스
   const [imgIdx, setImgIdx] = useState(0)
-
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const openLightbox = useCallback(() => setLightboxOpen(true), [])
   const closeLightbox = useCallback(() => setLightboxOpen(false), [])
 
-  const backToList = useCallback(() => {
-    navigate(`/works?tab=${encodeURIComponent(category)}`)
-  }, [navigate, category])
+  // 최상단 스크롤용 앵커
+  const topRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     setImgIdx(0)
   }, [category, workId])
 
+  // 상세 데이터 로드
   useEffect(() => {
     if (!workId || Number.isNaN(workId)) {
       setError('잘못된 작품 ID입니다.')
@@ -68,17 +80,107 @@ export default function WorksDetailPage() {
     return () => ac.abort()
   }, [category, workId])
 
+  // 리스트 로드(정렬 기준 맞추기)
+  useEffect(() => {
+    const ac = new AbortController()
+    setListLoading(true)
+    fetchWorkList(category, ac.signal)
+      .then((list) => setItems(list))
+      .catch(() => setItems([]))
+      .finally(() => setListLoading(false))
+    return () => ac.abort()
+  }, [category])
+
+  // 리스트 페이지와 동일한 정렬 기준
+  const koCollator = useMemo(
+    () => new Intl.Collator('ko', { sensitivity: 'base', numeric: true }),
+    [],
+  )
+  const enCollator = useMemo(
+    () => new Intl.Collator('en', { sensitivity: 'base', numeric: true }),
+    [],
+  )
+
+  const getSortGroup = useCallback((name: string): number => {
+    const key = (name ?? '').trim().replace(/^[^A-Za-z0-9\uAC00-\uD7A3]+/, '')
+    const ch = key.charAt(0)
+    if (/^[\uAC00-\uD7A3]$/.test(ch)) return 0 // 한글
+    if (/^[A-Za-z]$/.test(ch)) return 1 // 영어
+    return 2 // 기타
+  }, [])
+
+  const compareProjectName = useCallback(
+    (a: WorkItem, b: WorkItem): number => {
+      const ga = getSortGroup(a.projectName)
+      const gb = getSortGroup(b.projectName)
+      if (ga !== gb) return ga - gb
+      if (ga === 0) return koCollator.compare(a.projectName, b.projectName)
+      if (ga === 1) return enCollator.compare(a.projectName, b.projectName)
+      return koCollator.compare(a.projectName, b.projectName)
+    },
+    [getSortGroup, koCollator, enCollator],
+  )
+
+  const sorted = useMemo(() => {
+    if (!items?.length) return []
+    return [...items].sort(compareProjectName)
+  }, [items, compareProjectName])
+
+  const currentIndex = useMemo(
+    () => sorted.findIndex((w) => w.id === workId),
+    [sorted, workId],
+  )
+  const prevId = currentIndex > 0 ? sorted[currentIndex - 1]?.id : undefined
+  const nextId =
+    currentIndex >= 0 && currentIndex < sorted.length - 1
+      ? sorted[currentIndex + 1]?.id
+      : undefined
+
+  // 스크롤 복원 억제 + 상단 고정
+  useLayoutEffect(() => {
+    if ('scrollRestoration' in history) {
+      try {
+        history.scrollRestoration = 'manual'
+      } catch {
+        console.log('')
+      }
+    }
+    window.scrollTo(0, 0)
+    topRef.current?.scrollIntoView({ block: 'start', inline: 'nearest' })
+  }, [category, workId])
+
+  // 로딩 완료 후 한 번 더 상단 고정(이미지 로딩 등 레이아웃 변동 대비)
+  useEffect(() => {
+    if (!loading) {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+        topRef.current?.scrollIntoView({ block: 'start', inline: 'nearest' })
+      })
+    }
+  }, [loading])
+
+  // 현재 인덱스를 세션에 백업(브라우저 뒤로가기 복원)
+  useEffect(() => {
+    if (currentIndex >= 0 && typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem(`worksIdx:${category}`, String(currentIndex))
+    }
+  }, [category, currentIndex])
+
+  const backToList = useCallback(() => {
+    navigate(`/works?tab=${encodeURIComponent(category)}`, {
+      state: { fromIdx: currentIndex },
+    })
+  }, [navigate, category, currentIndex])
+
   const goPrev = useCallback(() => {
-    if (!data?.prev) return
-    navigate(`/works/${params.category}/${data.prev}`)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [data?.prev, navigate, params.category])
+    if (!prevId) return
+    navigate(`/works/${params.category}/${prevId}`)
+  }, [navigate, params.category, prevId])
 
   const goNext = useCallback(() => {
-    if (!data?.next) return
-    navigate(`/works/${params.category}/${data.next}`)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [data?.next, navigate, params.category])
+    if (!nextId) return
+    navigate(`/works/${params.category}/${nextId}`)
+  }, [navigate, params.category, nextId])
 
   if (loading) {
     return (
@@ -108,7 +210,8 @@ export default function WorksDetailPage() {
   const longBody = data.description || data.midDescription || ''
 
   return (
-    <div className="w-full pb-3">
+    <div key={`${category}-${workId}`} className="w-full pb-3">
+      <div ref={topRef} aria-hidden />
       <WorkHeader
         instagramUrl={data.instagramUrl}
         githubUrl={data.githubUrl}
@@ -155,13 +258,13 @@ export default function WorksDetailPage() {
         }
         body={<DetailSection>{longBody}</DetailSection>}
         nav={
-          // IOT, GAME이면 항상 숨김
+          // IOT, GAME은 숨김
           category === 'IOT' || category === 'GAME' ? undefined : (
             <DetailNav
               onPrev={goPrev}
               onNext={goNext}
-              prevDisabled={!data.prev}
-              nextDisabled={!data.next}
+              prevDisabled={!prevId}
+              nextDisabled={!nextId}
             />
           )
         }
