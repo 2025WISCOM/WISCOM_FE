@@ -100,7 +100,7 @@ const BoothStamp = () => {
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-[24px] px-[35px] place-items-center mb-[36px]">
+        <div className="grid grid-cols-3 gap-[24px] px-[35px] place-items-center mb-[36px] mt-[16px]">
           {Array.from({ length: 17 }).map((_, idx) => (
             <div
               key={idx}
