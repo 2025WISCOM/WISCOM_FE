@@ -60,7 +60,7 @@ const TeamGrid = () => {
   const sortedTeams = useMemo(() => [...teams].sort(compareTeamName), [teams])
 
   return (
-    <div className="grid grid-cols-2 gap-8 mt-8 place-items-center mb-8 auto-rows-[250px]">
+    <div className="grid grid-cols-2 gap-2 mt-8 place-items-center mb-8 auto-rows-[250px] mx-6">
       {sortedTeams.map((team, idx) => {
         const img =
           stampImages.length > 0 ? stampImages[idx % stampImages.length] : ''
