@@ -20,7 +20,7 @@ const RootLayout = () => {
       />
 
       <div
-        className={`relative z-10 w-full max-w-[393px] h-[min(800px,100vh)] flex flex-col ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
+        className={`relative z-10 w-full max-w-[402px] h-[min(874px,100vh)] flex flex-col ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
         id="app-container"
       >
         {/* 헤더 */}
@@ -44,7 +44,7 @@ const RootLayout = () => {
 
       {/* 화면 높이가 700px 이상일 때만 라운드 적용 */}
       <style>{`
-        @media (min-height: 700px) {
+        @media (min-height: 874px) {
           #app-container {
             border-radius: 0.75rem; /* rounded-xl */
           }
