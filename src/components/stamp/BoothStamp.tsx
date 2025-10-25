@@ -18,6 +18,7 @@ const BoothStamp = () => {
   }>({})
 
   const [showModal, setShowModal] = useState(false)
+  const [isValidQR, setIsValidQR] = useState<boolean>(false)
   const [content, setContent] = useState<string>('')
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
@@ -25,20 +26,23 @@ const BoothStamp = () => {
 
   const handleScan = (result: QrScanner.ScanResult) => {
     if (result) {
-      console.log(result)
-
       scannerRef.current?.stop()
 
       const boothId = result.data
 
-      const content = BoothData.find((booth) => String(booth.id) === boothId)
-      setContent(content?.content ?? '')
+      const booth = BoothData.find((booth) => String(booth.id) === boothId) // 해당 부스 객체
 
-      const updatedBooths = { ...scannedBooth, [boothId]: true }
+      if (!booth) {
+        setIsValidQR(false)
+        setContent('유효하지 않은 QR입니다.')
+      } else {
+        setIsValidQR(true)
+        setContent(booth?.content ?? '')
 
-      setScannedBooth(updatedBooths)
-
-      localStorage.setItem('scannedBooths', JSON.stringify(updatedBooths))
+        const updatedBooths = { ...scannedBooth, [boothId]: true }
+        setScannedBooth(updatedBooths)
+        localStorage.setItem('scannedBooths', JSON.stringify(updatedBooths))
+      }
     }
 
     setTimeout(() => {
@@ -160,7 +164,7 @@ const BoothStamp = () => {
       {/* 스캔 이후 모달 */}
       {showModal && (
         <Modal
-          title={'스탬프 수집 완료'}
+          title={isValidQR ? '스탬프 수집 완료' : '스탬프 수집 실패'}
           content={content}
           setShowModal={setShowModal}
         />
