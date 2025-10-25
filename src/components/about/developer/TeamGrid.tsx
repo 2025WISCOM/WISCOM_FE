@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import TeamCard from './TeamCard'
 import { fetchWorkList } from '../../../apis/about/team'
 import type { WorkItem } from '../../../apis/about/team'
