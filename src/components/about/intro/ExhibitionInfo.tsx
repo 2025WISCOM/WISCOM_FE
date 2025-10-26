@@ -8,7 +8,7 @@ const ExhibitionInfo = () => {
         <br />
         The 35th Graduation Exhibition
       </h2>
-      <p className="mt-3 leading-relaxed text-[20px] pb-[50px]">
+      <p className="mt-3 leading-relaxed text-[20px] pb-[24px]">
         덕성여자대학교 과학기술대학
         <br />
         컴퓨터공학전공
