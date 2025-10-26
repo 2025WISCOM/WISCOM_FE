@@ -34,7 +34,9 @@ const BoothStamp = () => {
 
       if (!booth) {
         setIsValidQR(false)
-        setContent('유효하지 않은 QR입니다.')
+        setContent(
+          '유효하지 않은 QR입니다. 올바른 코드를 스캔했는지 확인해주세요.',
+        )
       } else {
         setIsValidQR(true)
         setContent(booth?.content ?? '')
