@@ -4,7 +4,7 @@ import QrScanner from 'qr-scanner'
 import StampImg from '../../assets/duksung_fantasy_transparent.png'
 import ComputerIcon from '../../assets/booth_stamp_computer.svg'
 import ComputerSuccessIcon from '../../assets/booth_stamp_computer_success.svg'
-import StampIcon from '../../assets/booth_stamp_success.svg'
+import StampIcon from '../../assets/booth_stamp_success.png'
 import ScanModal from './ScanModal'
 import Modal from '../Modal'
 import BoothData from '../../data/boothData.json'
@@ -18,6 +18,7 @@ const BoothStamp = () => {
   }>({})
 
   const [showModal, setShowModal] = useState(false)
+  const [isValidQR, setIsValidQR] = useState<boolean>(false)
   const [content, setContent] = useState<string>('')
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
@@ -25,20 +26,25 @@ const BoothStamp = () => {
 
   const handleScan = (result: QrScanner.ScanResult) => {
     if (result) {
-      console.log(result)
-
       scannerRef.current?.stop()
 
       const boothId = result.data
 
-      const content = BoothData.find((booth) => String(booth.id) === boothId)
-      setContent(content?.content ?? '')
+      const booth = BoothData.find((booth) => String(booth.id) === boothId) // 해당 부스 객체
 
-      const updatedBooths = { ...scannedBooth, [boothId]: true }
+      if (!booth) {
+        setIsValidQR(false)
+        setContent(
+          '유효하지 않은 QR입니다. 올바른 코드를 스캔했는지 확인해주세요.',
+        )
+      } else {
+        setIsValidQR(true)
+        setContent(booth?.content ?? '')
 
-      setScannedBooth(updatedBooths)
-
-      localStorage.setItem('scannedBooths', JSON.stringify(updatedBooths))
+        const updatedBooths = { ...scannedBooth, [boothId]: true }
+        setScannedBooth(updatedBooths)
+        localStorage.setItem('scannedBooths', JSON.stringify(updatedBooths))
+      }
     }
 
     setTimeout(() => {
@@ -96,7 +102,7 @@ const BoothStamp = () => {
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-[24px] px-[35px] place-items-center mb-[36px]">
+        <div className="grid grid-cols-3 gap-[24px] px-[35px] place-items-center mb-[36px] mt-[16px]">
           {Array.from({ length: 17 }).map((_, idx) => (
             <div
               key={idx}
@@ -147,7 +153,7 @@ const BoothStamp = () => {
           <ScanModal videoRef={videoRef} setIsScanning={setIsScanning} />
         )}
 
-        <div className="sticky bottom-[32px] px-[16px] w-full mb-[32px]">
+        <div className="sticky bottom-[32px] pointer-coarse:bottom-[10px] px-[16px] w-full mb-[32px]">
           <button
             onClick={() => setIsScanning(true)}
             className="w-full bg-[#56493A] rounded-[40px] h-[48px] text-[#fff] text-[20px] font-bold leading-[24px] font-['Butler'] cursor-pointer"
@@ -160,7 +166,7 @@ const BoothStamp = () => {
       {/* 스캔 이후 모달 */}
       {showModal && (
         <Modal
-          title={'스탬프 수집 완료'}
+          title={isValidQR ? '스탬프 수집 완료' : '스탬프 수집 실패'}
           content={content}
           setShowModal={setShowModal}
         />

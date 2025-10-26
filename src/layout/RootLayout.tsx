@@ -11,7 +11,7 @@ const RootLayout = () => {
 
   return (
     <div
-      className="relative min-h-screen w-full flex items-center justify-center font-[Pretendard] bg-cover bg-center"
+      className="relative min-h-dvh w-full flex items-center justify-center font-[Pretendard] bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImg})` }}
     >
       <div
@@ -20,7 +20,7 @@ const RootLayout = () => {
       />
 
       <div
-        className={`relative z-10 w-full max-w-[402px] h-[min(874px,100vh)] flex flex-col ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
+        className={`relative z-10 w-full max-w-[402px] h-[min(874px,100dvh)] pointer-coarse:h-dvh pointer-coarse:max-w-full flex flex-col ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
         id="app-container"
       >
         {/* 헤더 */}
@@ -42,9 +42,9 @@ const RootLayout = () => {
         </main>
       </div>
 
-      {/* 화면 높이가 700px 이상일 때만 라운드 적용 */}
+      {/* 화면 높이가 700px 이상일 때, PC 환경일 때만 라운드 적용 */}
       <style>{`
-        @media (min-height: 874px) {
+        @media (min-height: 874px) and (hover:hover) and (pointer:fine) {
           #app-container {
             border-radius: 0.75rem; /* rounded-xl */
           }
