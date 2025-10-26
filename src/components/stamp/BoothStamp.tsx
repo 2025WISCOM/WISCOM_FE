@@ -151,7 +151,7 @@ const BoothStamp = () => {
           <ScanModal videoRef={videoRef} setIsScanning={setIsScanning} />
         )}
 
-        <div className="sticky bottom-[32px] px-[16px] w-full mb-[32px]">
+        <div className="sticky bottom-[32px] pointer-coarse:bottom-[10px] px-[16px] w-full mb-[32px]">
           <button
             onClick={() => setIsScanning(true)}
             className="w-full bg-[#56493A] rounded-[40px] h-[48px] text-[#fff] text-[20px] font-bold leading-[24px] font-['Butler'] cursor-pointer"

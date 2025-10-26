@@ -11,7 +11,7 @@ const RootLayout = () => {
 
   return (
     <div
-      className="relative min-h-screen w-full flex items-center justify-center font-[Pretendard] bg-cover bg-center"
+      className="relative min-h-dvh w-full flex items-center justify-center font-[Pretendard] bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImg})` }}
     >
       <div
@@ -20,7 +20,7 @@ const RootLayout = () => {
       />
 
       <div
-        className={`relative z-10 w-full max-w-[402px] h-[min(874px,100vh)] flex flex-col ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
+        className={`relative z-10 w-full max-w-[402px] h-[min(874px,100dvh)] flex flex-col ${isMain ? 'bg-[#292a2c]' : 'bg-[#F5F3F0]'} overflow-hidden shadow-lg`}
         id="app-container"
       >
         {/* 헤더 */}
